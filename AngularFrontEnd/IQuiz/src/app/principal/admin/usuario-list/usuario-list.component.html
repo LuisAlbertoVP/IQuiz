@@ -1,0 +1,47 @@
+<div class="row col-12 d-flex mt-3 mb-3">
+  <a mat-stroked-button color="primary" (click)="navigate('/principal/cursos')">Cursos</a>
+  <a mat-stroked-button color="primary" (click)="navigate('/principal/usuario')" class="ml-auto">Nuevo</a>
+</div>
+
+<div class="container">
+  <mat-form-field class="w-100">
+    <mat-label>Filtrar</mat-label>
+    <input matInput (keyup)="applyFilter($event.target.value)" #input>
+  </mat-form-field>
+</div>
+
+<div class="w-100 p-3 mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+    <ng-container matColumnDef="nombres">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombres</th>
+      <td mat-cell *matCellDef="let row">{{ row.nombres }}</td>
+    </ng-container>
+    <ng-container matColumnDef="correoInstitucional">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo Institucional</th>
+      <td mat-cell *matCellDef="let row">{{ row.correoInstitucional }}</td>
+    </ng-container>
+    <ng-container matColumnDef="rol">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Rol</th>
+      <td mat-cell *matCellDef="let row">{{ row.rol }}</td>
+    </ng-container>
+    <ng-container matColumnDef="ingreso">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario/Fecha Ingreso</th>
+      <td mat-cell *matCellDef="let row">{{ row.usuarioIngreso }}<br />{{ row.fechaIngreso }}</td>
+    </ng-container>
+    <ng-container matColumnDef="modificacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario/Fecha Modificación</th>
+      <td mat-cell *matCellDef="let row">{{ row.usuarioModificacion }}<br />{{ row.fechaModificacion }}</td>
+    </ng-container>
+    <ng-container matColumnDef="accion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+        <a mat-icon-button color="accent" (click)="updateEstado(row)"><mat-icon>{{ row.estado == 1 ? 'delete' : 'restore' }}</mat-icon></a></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="navigate('/principal/usuario', row.id)" class="element cursor-def"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay datos que coincidan con "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true"></mat-paginator>
+</div>

@@ -1,0 +1,72 @@
+<div [formGroup]="form" class="row">
+  <div class="col-12 mb-1">
+    <mat-form-field>
+      <mat-label>Abreviatura</mat-label>
+      <input formControlName="abreviatura" matInput type="text" />
+      <mat-error *ngIf="form.get('abreviatura').hasError('required')">Abreviatura es requerida</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="tipo == 0 || tipo == 1 || tipo == 2 || tipo == 3" class="col-12 d-flex">
+    <mat-form-field class="flex-grow-1 w-100 mr-3">
+      <textarea formControlName="descripcion" matInput placeholder="Descripción"></textarea>
+      <mat-error *ngIf="form.get('descripcion').hasError('required')">Descripción es requerida</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="tipo == 0">
+      <mat-label>Respuesta</mat-label>
+      <mat-select formControlName="respuesta"> 
+        <mat-option>-- Seleccione --</mat-option>  
+        <mat-option [value]="'0'">Incorrecto</mat-option>
+        <mat-option [value]="'1'">Correcto</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('respuesta').hasError('required')">Respuesta es requerida</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="tipo == 1">
+      <mat-label>Respuesta</mat-label>
+      <mat-select formControlName="respuesta"> 
+        <mat-option>-- Seleccione --</mat-option>  
+        <mat-option [value]="'0'">Falso</mat-option>
+        <mat-option [value]="'1'">Verdadero</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('respuesta').hasError('required')">Respuesta es requerida</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="tipo == 2">
+      <mat-label>Posición</mat-label>
+      <input formControlName="respuesta" matInput type="number" />
+      <mat-error *ngIf="form.get('respuesta').hasError('required')">Posición es requerida</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="tipo == 3">
+      <mat-label>Palabra</mat-label>
+      <input formControlName="respuesta" matInput type="text" />
+      <mat-error *ngIf="form.get('respuesta').hasError('required')">Palabra es requerida</mat-error>
+    </mat-form-field>
+  </div>
+  
+  <mat-form-field *ngIf="tipo == 4 || tipo == 5" class="p-2 w-100">
+    <textarea formControlName="descripcion" matInput placeholder="Descripción"></textarea>
+    <mat-error *ngIf="form.get('descripcion').hasError('required')">Descripción es requerida</mat-error>
+  </mat-form-field>
+
+  <div *ngIf="tipo == 6" formArrayName="entradas" class="col-12">
+    <div class="mt-1 mb-3 d-flex">
+      <button mat-stroked-button color="primary" (click)="addEntrada(false); $event.preventDefault();">+Contenido</button>
+      <button mat-stroked-button color="primary" (click)="addEntrada(true); $event.preventDefault();" class="ml-auto">+Respuesta</button>
+    </div>
+    <ng-container *ngFor="let entrada of entradas.controls; let i=index">
+      <div [formGroupName]="i" class="mt-1 mb-1  mr-2 d-inline">
+        <mat-form-field *ngIf="entrada.get('esRespuesta').value; else elseBlock">
+          <mat-label>Respuesta</mat-label>
+          <input formControlName="entrada" matInput type="text" />
+          <mat-error *ngIf="entrada.get('entrada').hasError('required')">Respuesta es requerida</mat-error>
+        </mat-form-field>
+        <ng-template #elseBlock>
+          <mat-form-field style="width: 300px;">
+            <mat-label>Contenido</mat-label>
+            <input formControlName="entrada" matInput type="text" />
+            <mat-error *ngIf="entrada.get('entrada').hasError('required')">Contenido es requerido</mat-error>
+          </mat-form-field>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+</div>

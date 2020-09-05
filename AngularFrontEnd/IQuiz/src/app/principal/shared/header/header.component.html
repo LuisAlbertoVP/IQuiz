@@ -1,0 +1,30 @@
+<nav class="row navbar navbar-expand-md navbar-light bg-light mb-3">
+  <span class="navbar-brand">IQuiz</span>
+  <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+
+  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/principal/cuestionarios/home" (click)="isMenuCollapsed=true">Cuestionarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="/principal/pruebas" (click)="isMenuCollapsed=true">Pruebas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/principal/aulas/home" (click)="isMenuCollapsed=true">Aulas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/principal/usuarios" (click)="isMenuCollapsed=true">Admin</a>
+      </li>
+      <li class="nav-item dropdown" ngbDropdown display="dynamic">
+        <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown" role="button" style="outline: none;">Cuenta</a>
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown" class="dropdown-menu">
+          <a ngbDropdownItem style="pointer-events: none;">Bienvenido <span class="d-block">{{ service.getNombres() }}</span></a>
+          <div class="dropdown-divider"></div>
+          <a ngbDropdownItem (click)="$event.preventDefault()" class="cursor-point">Configuración</a>
+          <a ngbDropdownItem (click)="logout(); $event.preventDefault()" class="cursor-point">Cerrar sesión</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

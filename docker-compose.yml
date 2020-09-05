@@ -1,0 +1,85 @@
+version: '3'
+services:
+  iquiz:
+    build: AngularFrontEnd/IQuiz/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.4
+  gateway1:
+    build: ApiGateway/AulaGateway/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.8
+  gateway2:
+    build: ApiGateway/CoreGateway/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.9
+  gateway3:
+    build: ApiGateway/ExplorerGateway/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.10
+  app1:
+    build: Microservices/AsignacionAdministracion/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.11
+  app2:
+    build: Microservices/AulaExplorer/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.12
+  app3:
+    build: Microservices/CuestionarioAdministracion/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.13
+  app4:
+    build: Microservices/CuestionarioExplorer/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.14
+  app5:
+    build: Microservices/IdentityService/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.15
+  app6:
+    build: Microservices/PostAdministracion/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.16
+  app7:
+    build: Microservices/PruebaAdministracion/
+    expose:
+      - "80"
+    networks:
+      net1:
+        ipv4_address: 192.168.1.17
+networks:
+  net1:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 192.168.1.0/24

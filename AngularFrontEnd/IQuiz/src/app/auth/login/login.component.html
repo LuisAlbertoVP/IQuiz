@@ -1,0 +1,23 @@
+<div *ngIf="!service.getAuthorizationToken()" class="login-screen">
+  <h4 class="text-center mb-4">Iniciar sesión</h4>
+  <form [formGroup]="formLogin" (ngSubmit)="login()"> 
+    <mat-form-field class="w-100 mb-3">
+      <mat-label>Cedula</mat-label>
+      <input formControlName="cedula" matInput placeholder="Ingrese cedula" type="text">
+      <mat-icon matSuffix [inline]="true">person</mat-icon>
+      <mat-error *ngIf="formLogin.get('cedula').hasError('required')">Cedula es requerida</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-100 mb-3">
+      <mat-label>Contraseña</mat-label>
+      <input formControlName="clave" matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese contraseña">
+      <button mat-icon-button matSuffix (click)="hide = !hide; $event.preventDefault()" >
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="formLogin.get('clave').hasError('required')">Contraseña es requerida</mat-error>
+    </mat-form-field>
+    <div class="mb-3">
+      <mat-checkbox>Recordar contraseña</mat-checkbox>
+    </div>
+    <button mat-raised-button color="primary">Iniciar sesión</button>
+  </form>
+</div>

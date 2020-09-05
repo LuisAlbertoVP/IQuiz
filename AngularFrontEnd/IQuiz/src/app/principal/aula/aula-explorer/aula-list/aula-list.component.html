@@ -1,0 +1,85 @@
+<div class="row col-12 d-flex mt-4 mb-4">
+  <div ngbDropdown container="body">
+    <button (click)="nuevo(content); result={ button: 'Crear', title: 'Nueva Carpeta' }" class="btn btn-outline-primary btn-sm">Nueva Carpeta</button>
+  </div>
+  <ng-container *ngIf="clipboard.length > 0; else elseBlock">
+    <button (click)="moverAqui()" class="ml-auto btn btn-outline-primary btn-sm mr-1">Mover aquí</button>
+    <button (click)="cancelar()" class="btn btn-outline-primary btn-sm">Cancelar</button>
+  </ng-container>
+  <ng-template #elseBlock>
+    <div ngbDropdown container="body" class="ml-auto">
+      <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>Opciones</button>
+      <div ngbDropdownMenu>
+        <button (click)="editar(content); result={ button: 'Guardar', title: 'Editar' }" ngbDropdownItem>Editar</button>
+        <button (click)="mover()" ngbDropdownItem>Mover</button>
+        <button (click)="eliminar()" ngbDropdownItem>Eliminar</button>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div class="container">
+  <mat-form-field class="w-100">
+    <mat-label>Filtrar</mat-label>
+    <input matInput (keyup)="applyFilter($event.target.value)" #input>
+  </mat-form-field>
+</div>
+
+<div class="w-100 p-3 mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [indeterminate]="selection.hasValue() && !isAllSelected()" 
+          [checked]="selection.hasValue() && isAllSelected()"></mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" 
+          [checked]="selection.isSelected(row)"></mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <img [src]="row.esCarpeta ? 'assets/folder.png' : 'assets/board.png'" style="width: 25px;" class="mr-2"/>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fechaCreacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación</th>
+      <td mat-cell *matCellDef="let row">{{ row.fechaCreacion }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fechaModificacion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Última modificación</th>
+      <td mat-cell *matCellDef="let row">{{ row.fechaModificacion }}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="route(row)" class="element cursor-def"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay datos que coincidan con "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20, 30]" [showFirstLastButtons]="true"></mat-paginator>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ result['title'] }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Nombre</label>
+      <div class="input-group">
+        <input #nombre class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="result['nombre']=nombre.value; modal.close(result)">{{ result['button'] }}</button>
+  </div>
+</ng-template>
