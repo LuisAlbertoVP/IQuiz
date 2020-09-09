@@ -73,30 +73,35 @@ export class PruebaFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    //if(this.form.valid) {
+    if(this.form.valid) {
       const pregsResult = this.form.getRawValue()['preguntas'];
       const prueba: Repositorio = this.calificar.calificarPrueba(this.cuestionario, pregsResult);
       this.http.addPrueba(prueba).subscribe((response: HttpResponse<Object>) => {
         if(response.status == 200) {
-          this.snackBar.open('Prueba realizada', 'Ok', { duration: 2000, panelClass: ['success'] });
           if(this.conAsignacion) {
-            const newPrueba: Prueba = { id: this.idPrueba, nota: prueba.nota };
+            const newPrueba: Prueba = { id: this.idPrueba, nota: prueba.puntaje };
             this.http.addPruebaCurso(newPrueba).subscribe((response: HttpResponse<Object>) => {
               if(response.status == 200) {
-                this.snackBar.open('Calificacion actualizada', 'Ok', { duration: 2000, panelClass: ['success'] });
+                this.next();
               } else {
-                this.snackBar.open('Ha ocurrido errores, vuelva a intentarlo', 'Error', { duration: 3000 });
+                this.snackBar.open('Ha ocurrido algunos errores, vuelva a intentarlo', 'Error', { duration: 3000 });
               }
             });
+          } else {
+            this.next();
           }
-          //this.router.navigate(['/cuestionario', 4]);
         } else {
           this.snackBar.open('No se han guardado los cambios, vuelva a intentarlo', 'Error', { duration: 3000 });
         }
       });
-    //} else {
-      //this.form.markAllAsTouched();
-      //this.snackBar.open('Faltan llenar campos', 'Error', { duration: 2000 });
-   // }
+    } else {
+      this.form.markAllAsTouched();
+      this.snackBar.open('Faltan llenar campos', 'Error', { duration: 2000 });
+    }
+  }
+
+  next() {
+    this.snackBar.open('Prueba realizada', 'Ok', { duration: 2000, panelClass: ['success'] });
+    this.router.navigate(['/principal/pruebas']);
   }
 }

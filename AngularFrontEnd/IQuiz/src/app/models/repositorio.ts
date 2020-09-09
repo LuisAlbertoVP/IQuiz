@@ -1,7 +1,6 @@
 import { Tiempo } from './time';
 
 export interface Entrada {
-  nota?: number;
   entrada: string;
   entrada2?: string;
   esRespuesta: boolean;
@@ -9,6 +8,7 @@ export interface Entrada {
 
 export interface Literal {
   id: string;
+  puntaje?: number;
   nota?: number;
   orden: number;
   abreviatura?: string;
@@ -19,7 +19,6 @@ export interface Literal {
 }
 
 export interface Columna {
-  nota?: number;
   palabra?: string;
   palabra2?: string;
 }
@@ -34,6 +33,7 @@ export interface Tabla {
 
 export interface Pregunta {
   id: string;
+  puntaje: number;
   nota?: number;
   orden: number;
   tipo: number;
@@ -45,10 +45,12 @@ export interface Pregunta {
 
 export interface Repositorio {
   id: string;
-  nota: number;
+  puntaje: number;
+  nota?: number;
   nombre: string;
   descripcion?: string;
   tiempo: Tiempo;
   duracion?: string;
+  fecha?: string;
   preguntas: Pregunta[];
 }

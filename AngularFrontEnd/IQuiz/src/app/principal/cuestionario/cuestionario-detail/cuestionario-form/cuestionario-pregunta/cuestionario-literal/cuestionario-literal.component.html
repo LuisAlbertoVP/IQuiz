@@ -1,10 +1,13 @@
 <div [formGroup]="form" class="row">
-  <div class="col-12 mb-1">
+  <div class="col-12 d-flex mb-1">
     <mat-form-field>
       <mat-label>Abreviatura</mat-label>
       <input formControlName="abreviatura" matInput type="text" />
       <mat-error *ngIf="form.get('abreviatura').hasError('required')">Abreviatura es requerida</mat-error>
     </mat-form-field>
+    <button mat-icon-button color="accent" (click)="removeLiteral(form.get('orden').value - 1); $event.preventDefault();" class="ml-auto">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 
   <div *ngIf="tipo == 0 || tipo == 1 || tipo == 2 || tipo == 3" class="col-12 d-flex">

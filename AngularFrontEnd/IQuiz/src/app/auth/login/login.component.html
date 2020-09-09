@@ -15,9 +15,7 @@
       </button>
       <mat-error *ngIf="formLogin.get('clave').hasError('required')">Contraseña es requerida</mat-error>
     </mat-form-field>
-    <div class="mb-3">
-      <mat-checkbox>Recordar contraseña</mat-checkbox>
-    </div>
-    <button mat-raised-button color="primary">Iniciar sesión</button>
+    <button mat-raised-button color="primary" class="mt-1">Iniciar sesión</button>
   </form>
+  <div class="alert alert-danger mt-5" [style.display]="alert ? 'block' : 'none'">Las credenciales son incorrectas</div>
 </div>

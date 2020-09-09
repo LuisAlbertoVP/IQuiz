@@ -1,6 +1,8 @@
 <div [formGroup]="form" [style.display]="display" class="container-fluid">
   <div class="row mb-3 d-flex">
-    <button mat-stroked-button color="primary" (click)="removePregunta(form.get('orden').value - 1); $event.preventDefault();">-Pregunta</button>
+    <button mat-mini-fab color="primary" (click)="removePregunta(form.get('orden').value - 1); $event.preventDefault();">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 
   <div class="row d-flex mb-2">
@@ -18,9 +20,9 @@
     </mat-form-field>
     <mat-form-field class="ml-auto" appearance="fill">
       <mat-label>Puntaje</mat-label>
-      <input formControlName="nota" matInput type="number" />
-      <mat-error *ngIf="form.get('nota').hasError('required')">Puntaje es requerido</mat-error>
-      <mat-error *ngIf="form.get('nota').hasError('min')">Puntaje debe ser mayor a 1</mat-error>
+      <input formControlName="puntaje" matInput type="number" />
+      <mat-error *ngIf="form.get('puntaje').hasError('required')">Puntaje es requerido</mat-error>
+      <mat-error *ngIf="form.get('puntaje').hasError('min')">Puntaje debe ser mayor a 1</mat-error>
     </mat-form-field>
   </div>
 
@@ -35,11 +37,11 @@
   </ng-container>
   
   <div formArrayName="literales" class="row pt-3 pb-3 pl-5 pr-5">
-    <div class="col-12 d-flex">
-      <button mat-stroked-button color="accent" (click)="addLiteral(); $event.preventDefault();" class="ml-auto">+Literal</button>
+    <div class="mb-1">
+      <button mat-stroked-button color="accent" (click)="addLiteral(); $event.preventDefault();">Nuevo literal</button>
     </div>
     <div *ngFor="let literal of literales.controls; let i=index" class="container mt-2 mb-2 p-3 shadow3 bradius">
-      <app-cuestionario-literal [form]="literal" [tipo]="tipo"></app-cuestionario-literal>
+      <app-cuestionario-literal [form]="literal" [tipo]="tipo" (removeLiteralRequest)="removeLiteral($event)"></app-cuestionario-literal>
     </div>
   </div>
 

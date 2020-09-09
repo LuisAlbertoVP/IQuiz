@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { CuestionarioControlService } from '@cuestionario_controls/CuestionarioControlService';
 import { Entrada } from '@models/repositorio';
@@ -8,6 +8,7 @@ import { Entrada } from '@models/repositorio';
   templateUrl: './cuestionario-literal.component.html'
 })
 export class CuestionarioLiteralComponent implements OnInit {
+  @Output() removeLiteralRequest = new EventEmitter<number>();
   @Input() form: FormGroup;
   @Input() tipo: number;
 
@@ -21,6 +22,8 @@ export class CuestionarioLiteralComponent implements OnInit {
   get entradas() {
     return this.form.get('entradas') as FormArray;
   }
+
+  removeLiteral = (orden: number) => this.removeLiteralRequest.emit(orden);
 
   addEntrada(esRespuesta: boolean) {
     const entrada: Entrada = { entrada: '', esRespuesta: esRespuesta };

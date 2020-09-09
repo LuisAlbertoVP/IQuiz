@@ -33,7 +33,7 @@ export class CuestionarioFormComponent implements OnInit {
     this.form = this.service.toCuestionarioForm(this.cuestionario);
     this.pages = this.preguntas.length + '0';
     this.updateTotalNota();
-    this.form.get('nota').valueChanges.subscribe(newValue => {
+    this.form.get('puntaje').valueChanges.subscribe(newValue => {
       this.updateTotalNota();
     });
   }
@@ -81,7 +81,7 @@ export class CuestionarioFormComponent implements OnInit {
   addPregunta() {
     const newPosition: number = this.preguntas.length + 1;
     const newIdPregunta: string = uuid();
-    const pregunta: Pregunta = { id: newIdPregunta, orden: newPosition, nota: 0, tipo: 0, descripcion: '' };
+    const pregunta: Pregunta = { id: newIdPregunta, orden: newPosition, puntaje: 0, tipo: 0, descripcion: '' };
     this.preguntas.push(this.service.toPreguntaForm(pregunta));
     this.addPagination();
   }
@@ -105,10 +105,10 @@ export class CuestionarioFormComponent implements OnInit {
   updateTotalNota() {
     let total: number = 0;
     for(let i = 0; i < this.preguntas.length; i++) {
-      const nota = this.preguntas.at(i).get('nota').value;
+      const nota = this.preguntas.at(i).get('puntaje').value;
       total += nota;
     }
-    this.totalNota = +this.form.get('nota').value - total;
+    this.totalNota = +this.form.get('puntaje').value - total;
   }
 
   onSubmit() {

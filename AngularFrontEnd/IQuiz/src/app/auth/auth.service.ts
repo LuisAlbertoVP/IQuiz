@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorHandlerService, HandleError } from '../http-error-handler.service';
-import { User } from '@models/auth';
+import { User, Rol } from '@models/auth';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,28 +19,22 @@ export class AuthService {
 
   constructor(
     private http: HttpClient, 
-    private router: Router,
     httpErrorHandler: HttpErrorHandlerService
   ) {
     this.handleError = httpErrorHandler.createHandleError('AuthService');
   }
 
   login(user: User) {
-    this.http.post<User>('http://localhost:5000/identity/login', user, httpOptions)
-      .pipe(catchError(this.handleError('login', user)))
-      .subscribe(user => {
-        if(user.token) {
-          this.saveToken(user);
-          this.router.navigate(['/principal/cuestionarios/home']);
-        }
-      });
+    return this.http.post<User>('http://localhost:5000/identity/login', user, httpOptions)
+      .pipe(catchError(this.handleError('login', user)));
   }
 
-  private saveToken(user: User) {
+  saveToken(user: User) {
     localStorage.setItem('id', user.id);
     localStorage.setItem('nombres', user.nombres);
     localStorage.setItem('id_token', user.token.id);
     localStorage.setItem('token_expiration', user.token.expiration);
+    localStorage.setItem('rol', (user.rol as Rol).descripcion);
   }
 
   logout() {
@@ -49,6 +42,7 @@ export class AuthService {
     localStorage.removeItem('nombres');
     localStorage.removeItem('id_token');
     localStorage.removeItem('token_expiration');
+    localStorage.removeItem('rol');
   }
 
   getAuthorizationToken() {
@@ -61,5 +55,9 @@ export class AuthService {
 
   getNombres() {
     return localStorage.getItem('nombres');
+  }
+
+  getRol() {
+    return localStorage.getItem('rol');
   }
 }

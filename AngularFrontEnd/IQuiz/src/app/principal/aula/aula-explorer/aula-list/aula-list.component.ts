@@ -82,9 +82,7 @@ export class AulaListComponent implements OnInit, OnChanges {
       const newIdArchivo = uuid();
       const nombre = result['nombre'] ? result['nombre'] : result['title'];
       const fecha = moment().format('YYYY-MM-DD h:mm:ss');
-      let archivo: Archivo = { 
-        id: newIdArchivo, nombre: nombre, esCarpeta: true, fechaCreacion: fecha, fechaModificacion: fecha, parent_id: this.idParent 
-      };
+      const archivo: Archivo = { id: newIdArchivo, nombre: nombre, esCarpeta: true, fechaCreacion: fecha, fechaModificacion: fecha, parent_id: this.idParent };
       this.http.addFile(archivo).subscribe((response: HttpResponse<Object>) => {
         if(response.status == 200) {
           this.dataSource.data.push(archivo);  

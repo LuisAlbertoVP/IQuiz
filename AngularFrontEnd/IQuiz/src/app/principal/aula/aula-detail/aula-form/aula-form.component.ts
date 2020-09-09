@@ -16,6 +16,10 @@ export class AulaFormComponent implements OnInit {
     this.requestAsignaciones();
   }
 
+  get rol() {
+    return localStorage.getItem('rol');
+  }
+
   private requestAsignaciones() {
     this.http.getCursoAsignaciones(this.curso.id).subscribe(asignaciones => {
       if(asignaciones?.length > 0) {
@@ -27,7 +31,7 @@ export class AulaFormComponent implements OnInit {
   }
 
   onTabChanged($event: any) {
-    if($event.index == 0) {
+    if($event.index == 0 || $event.index == 1) {
       this.requestAsignaciones();
     } 
   }

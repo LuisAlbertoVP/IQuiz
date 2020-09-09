@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class PruebaListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  displayedColumns: string[] = ['nombre', 'duracion', 'nota'];
+  displayedColumns: string[] = ['nombre', 'duracion', 'nota', 'puntaje', 'fecha'];
   dataSource: MatTableDataSource<Repositorio>;
 
   constructor(

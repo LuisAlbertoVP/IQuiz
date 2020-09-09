@@ -13,7 +13,7 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/principal/aulas/home" (click)="isMenuCollapsed=true">Aulas</a>
       </li>
-      <li class="nav-item">
+      <li [style.display]="service.getRol() == 'Administrador' ? 'block' : 'none'" class="nav-item">
         <a class="nav-link" routerLink="/principal/usuarios" (click)="isMenuCollapsed=true">Admin</a>
       </li>
       <li class="nav-item dropdown" ngbDropdown display="dynamic">
@@ -21,7 +21,6 @@
         <div ngbDropdownMenu aria-labelledby="navbarDropdown" class="dropdown-menu">
           <a ngbDropdownItem style="pointer-events: none;">Bienvenido <span class="d-block">{{ service.getNombres() }}</span></a>
           <div class="dropdown-divider"></div>
-          <a ngbDropdownItem (click)="$event.preventDefault()" class="cursor-point">Configuración</a>
           <a ngbDropdownItem (click)="logout(); $event.preventDefault()" class="cursor-point">Cerrar sesión</a>
         </div>
       </li>

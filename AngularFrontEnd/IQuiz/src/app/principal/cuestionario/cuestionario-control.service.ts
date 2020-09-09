@@ -52,7 +52,7 @@ export class CuestionarioControlService {
   toCuestionarioForm(c: Repositorio) {
     return this.fb.group({
       id : [c.id],
-      nota: [c.nota, [Validators.required, Validators.min(1)]],
+      puntaje: [c.puntaje, [Validators.required, Validators.min(1)]],
       nombre: [c.nombre],
       descripcion: [c.descripcion ? c.descripcion : ''],
       tiempo: this.toTiempoForm(c.tiempo),
@@ -66,7 +66,7 @@ export class CuestionarioControlService {
   toPreguntaForm(p: Pregunta) {
     return this.fb.group({
       id: [p.id],
-      nota: [p.nota, [Validators.required, Validators.min(1)]],
+      puntaje: [p.puntaje, [Validators.required, Validators.min(1)]],
       orden: [p.orden],
       tipo: [p.tipo],
       descripcion: [p.descripcion, Validators.required],

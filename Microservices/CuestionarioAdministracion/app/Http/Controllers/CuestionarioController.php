@@ -7,6 +7,7 @@ use App\Models\Archivo;
 use App\Models\CuestionarioCompartido;
 use App\Models\Cuestionario;
 use App\Models\Pregunta;
+use App\Models\Literal;
 use Illuminate\Http\Request;
 
 class CuestionarioController extends Controller
@@ -20,10 +21,10 @@ class CuestionarioController extends Controller
     public function getCuestionario(Request $request, $id) {
         $idUsuario = $request->get('id');
         $cuestionario = Cuestionario::with(['preguntas','preguntas.literales'])
-            ->selectRaw('id,nota,nombre,descripcion,tiempo')
+            ->selectRaw('id,puntaje,nombre,descripcion,tiempo')
             ->where('usuario_id', $idUsuario)->where('id', $id)->first();
         if($cuestionario) {
-            return $cuestionario->toJson();
+            return $cuestionario;
         }
         return response()->json(['status' => 'not found'], 404);
     }
@@ -34,7 +35,7 @@ class CuestionarioController extends Controller
         $query = DB::select('SELECT verificar_credenciales(?,?,?) as veces', [$idUsuario, $id, $json])[0];
         if($query->veces == 1) {
             $cuestionario = Cuestionario::with(['preguntas','preguntas.literales'])
-                ->selectRaw('id,nota,nombre,descripcion,tiempo')
+                ->selectRaw('id,puntaje,nombre,descripcion,tiempo')
                 ->where('id', (json_decode($json, true))['id'])->first();
             if($cuestionario) {
                 return $cuestionario->toJson();
@@ -49,10 +50,15 @@ class CuestionarioController extends Controller
         $json = $request->getContent();
         $cuestionario = json_decode($json, true);
         $id_preguntas = array();
+        $id_literales = array();
         foreach($cuestionario['preguntas'] as $pregunta) {
             array_push($id_preguntas, $pregunta['id']);
+            foreach($pregunta['literales'] as $literal) {
+                array_push($id_literales, $literal['id']);
+            }
         }
-        Pregunta::whereNotIn('id', $id_preguntas)->delete();
+        Pregunta::where('cuestionario_id', $cuestionario['id'])->whereNotIn('id', $id_preguntas)->delete();
+        Literal::whereIn('pregunta_id', $id_preguntas)->whereNotIn('id', $id_literales)->delete();
         DB::select('CALL add_cuestionario(?,?)', [$idUsuario, $json]);
         return response()->json(['status' => 'success'], 200);
     }

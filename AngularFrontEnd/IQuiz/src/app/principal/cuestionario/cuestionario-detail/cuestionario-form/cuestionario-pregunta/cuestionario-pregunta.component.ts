@@ -24,7 +24,7 @@ export class CuestionarioPreguntaComponent implements OnInit, OnChanges {
     this.form.get('tipo').valueChanges.subscribe(newTipo => {
       this.refreshPregunta(newTipo);
     });
-    this.form.get('nota').valueChanges.subscribe(newNota => {
+    this.form.get('puntaje').valueChanges.subscribe(newNota => {
       this.updateTotalNotaRequest.emit();
     });
   }
@@ -52,6 +52,13 @@ export class CuestionarioPreguntaComponent implements OnInit, OnChanges {
   }
 
   removePregunta = (orden: number) => this.removePreguntaRequest.emit(orden);
+
+  removeLiteral(index: number) {
+    this.literales.removeAt(index);
+    for(let i = 0; i < this.literales.length; i++) {
+      this.literales.at(i).get('orden').setValue(i + 1);
+    }
+  }
 
   addLiteral() {
     const newPosition: string = (this.literales.length + 1).toString();

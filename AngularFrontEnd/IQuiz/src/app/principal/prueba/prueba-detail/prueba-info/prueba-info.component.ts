@@ -16,7 +16,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class PruebaInfoComponent implements OnInit {
   @Input() prueba: Repositorio;
-  columnsToDisplay = ['orden', 'descripcion', 'nota'];
+  columnsToDisplay = ['orden', 'descripcion', 'nota', 'puntaje'];
   expandedElement: Pregunta;
 
   constructor() { }

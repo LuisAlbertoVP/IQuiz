@@ -1,9 +1,9 @@
 <div class="container bg-light pb-5">
-  <div class="row d-flex mt-3 mb-4 p-3 shadow3 bg-white">
+  <div class="row d-flex mt-3 mb-4 mr-2 ml-2 p-3 shadow3 bg-white">
     <button mat-stroked-button color="primary"  (click)="addAsignacion()" class="ml-auto">Nueva asignación</button>
   </div>
 
-  <div *ngIf="archivos" class="row mt-1">
+  <div *ngIf="archivos" class="row mt-1 mr-2 ml-2">
     <div *ngFor="let asignacion of asignaciones" class="container mt-2 mb-2 p-5 shadow3 bg-white">
       <app-aula-asignacion [asignacion]="asignacion" [archivos]="archivos"></app-aula-asignacion>
     </div>

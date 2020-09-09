@@ -222,7 +222,7 @@ use dbCuestionarioAdministracion;
 
 create table cuestionario(
     id varchar(100) primary key not null,
-    nota double not null,
+    puntaje double not null,
     nombre varchar(50) not null,
     descripcion varchar(200) null,
     tiempo json not null,
@@ -231,7 +231,7 @@ create table cuestionario(
 
 create table pregunta(
     id varchar(100) primary key not null,
-    nota double not null,
+    puntaje double not null,
     orden int not null,
     tipo int not null,
     descripcion varchar(200) null,
@@ -329,7 +329,7 @@ create procedure add_pregunta(in_cuestionario_id varchar(100), json JSON)
 begin
     declare _countliteral int default 0;
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
-    declare _nota double default json_extract(json, '$.nota');
+    declare _puntaje double default json_extract(json, '$.puntaje');
     declare _orden int default json_extract(json, '$.orden');
     declare _tipo int default json_extract(json, '$.tipo');
     declare _descripcion varchar(200) default json_unquote(json_extract(json, '$.descripcion'));
@@ -337,8 +337,8 @@ begin
     declare _retroalimentacion varchar(300) default json_unquote(json_extract(json, '$.retroalimentacion'));
     declare _literal json default json_extract(json, '$.literales');
     declare _length_literal int default json_length(_literal);
-    insert into pregunta values(_id, _nota, _orden, _tipo, _descripcion, _tabla, _retroalimentacion, in_cuestionario_id) on duplicate key 
-        update nota = _nota, orden = _orden, tipo = _tipo, descripcion = _descripcion, tabla = _tabla, retroalimentacion = _retroalimentacion;
+    insert into pregunta values(_id, _puntaje, _orden, _tipo, _descripcion, _tabla, _retroalimentacion, in_cuestionario_id) on duplicate key 
+        update puntaje = _puntaje, orden = _orden, tipo = _tipo, descripcion = _descripcion, tabla = _tabla, retroalimentacion = _retroalimentacion;
     while _countliteral != _length_literal do
         call add_literal(_id, json_extract(_literal, concat('$[', _countliteral, ']')));
         set _countliteral = _countliteral + 1;
@@ -351,14 +351,14 @@ create procedure add_cuestionario(in_usuario_id varchar(100), json JSON)
 begin
     declare _countpregunta int default 0;
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
-    declare _nota double default json_extract(json, '$.nota');
+    declare _puntaje double default json_extract(json, '$.puntaje');
     declare _nombre varchar(50) default json_unquote(json_extract(json, '$.nombre'));
     declare _descripcion varchar(200) default json_unquote(json_extract(json, '$.descripcion'));
     declare _tiempo json default json_extract(json, '$.tiempo');
     declare _pregunta json default json_extract(json, '$.preguntas');
     declare _length_pregunta int default json_length(_pregunta);
-    insert into cuestionario values(_id, _nota, _nombre, _descripcion, _tiempo, in_usuario_id) on duplicate key 
-        update nota = _nota, nombre = _nombre, descripcion = _descripcion, tiempo = _tiempo;
+    insert into cuestionario values(_id, _puntaje, _nombre, _descripcion, _tiempo, in_usuario_id) on duplicate key 
+        update puntaje = _puntaje, nombre = _nombre, descripcion = _descripcion, tiempo = _tiempo;
     while _countpregunta != _length_pregunta do
         call add_pregunta(_id, json_extract(_pregunta, concat('$[', _countpregunta, ']')));
         set _countpregunta = _countpregunta + 1;
@@ -376,15 +376,18 @@ use dbPruebaAdministracion;
 
 create table prueba(
     id varchar(100) primary key not null,
+    puntaje double not null,
     nota double not null,
     nombre varchar(50) not null,
     descripcion varchar(200) null,
     tiempo json not null,
+    fecha datetime not null,
     usuario_id varchar(100) not null
 );
 
 create table pregunta(
     id varchar(100) primary key not null,
+    puntaje double not null,
     nota double not null,
     orden int not null,
     tipo int not null,
@@ -397,6 +400,7 @@ create table pregunta(
 
 create table literal(
     id varchar(100) primary key not null,
+    puntaje double null,
     nota double null,
     orden int not null,
     abreviatura varchar(10) not null,
@@ -412,6 +416,7 @@ delimiter //
 create procedure add_literal(in_pregunta_id varchar(100), json JSON)
 begin
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
+    declare _puntaje double default json_extract(json, '$.puntaje');
     declare _nota double default json_extract(json, '$.nota');
     declare _orden int default json_extract(json, '$.orden');
     declare _abreviatura varchar(10) default json_unquote(json_extract(json, '$.abreviatura'));
@@ -419,7 +424,7 @@ begin
     declare _respuesta varchar(50) default json_unquote(json_extract(json, '$.respuesta'));
     declare _respuesta2 varchar(500) default json_unquote(json_extract(json, '$.respuesta2'));
     declare _entradas json default json_extract(json, '$.entradas');
-    insert into literal values(_id, _nota, _orden, _abreviatura, _descripcion, _respuesta, _respuesta2, _entradas, in_pregunta_id);
+    insert into literal values(_id, _puntaje, _nota, _orden, _abreviatura, _descripcion, _respuesta, _respuesta2, _entradas, in_pregunta_id);
 end //
 delimiter ;
 
@@ -428,6 +433,7 @@ create procedure add_pregunta(in_prueba_id varchar(100), json JSON)
 begin
     declare _countliteral int default 0;
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
+    declare _puntaje double default json_extract(json, '$.puntaje');
     declare _nota double default json_extract(json, '$.nota');
     declare _orden int default json_extract(json, '$.orden');
     declare _tipo int default json_extract(json, '$.tipo');
@@ -436,7 +442,7 @@ begin
     declare _retroalimentacion varchar(300) default json_unquote(json_extract(json, '$.retroalimentacion'));
     declare _literal json default json_extract(json, '$.literales');
     declare _length_literal int default json_length(_literal);
-    insert into pregunta values(_id, _nota, _orden, _tipo, _descripcion, _tabla, _retroalimentacion, in_prueba_id);
+    insert into pregunta values(_id, _puntaje, _nota, _orden, _tipo, _descripcion, _tabla, _retroalimentacion, in_prueba_id);
     while _countliteral != _length_literal do
         call add_literal(_id, json_extract(_literal, concat('$[', _countliteral, ']')));
         set _countliteral = _countliteral + 1;
@@ -449,13 +455,14 @@ create procedure add_prueba(in_usuario_id varchar(100), json JSON)
 begin
     declare _countpregunta int default 0;
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
+    declare _puntaje double default json_extract(json, '$.puntaje');
     declare _nota double default json_extract(json, '$.nota');
     declare _nombre varchar(50) default json_unquote(json_extract(json, '$.nombre'));
     declare _descripcion varchar(200) default json_unquote(json_extract(json, '$.descripcion'));
     declare _tiempo json default json_extract(json, '$.tiempo');
     declare _pregunta json default json_extract(json, '$.preguntas');
     declare _length_pregunta int default json_length(_pregunta);
-    insert into prueba values(_id, _nota, _nombre, _descripcion, _tiempo, in_usuario_id);
+    insert into prueba values(_id, _puntaje, _nota, _nombre, _descripcion, _tiempo, now(), in_usuario_id);
     while _countpregunta != _length_pregunta do
         call add_pregunta(_id, json_extract(_pregunta, concat('$[', _countpregunta, ']')));
         set _countpregunta = _countpregunta + 1;

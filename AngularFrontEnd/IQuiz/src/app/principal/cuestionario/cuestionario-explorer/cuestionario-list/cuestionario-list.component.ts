@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { v4 as uuid } from 'uuid';
 import * as moment from 'moment';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-cuestionario-list',
@@ -83,16 +84,19 @@ export class CuestionarioListComponent implements OnInit, OnChanges {
       const newIdArchivo = uuid();
       const nombre = result['nombre'] ? result['nombre'] : result['title'];
       const fecha = moment().format('YYYY-MM-DD h:mm:ss');
-      let archivo: Archivo = { 
-        id: newIdArchivo, nombre: nombre, esCarpeta: result['esCarpeta'], fechaCreacion: fecha, fechaModificacion: fecha, 
-        parent_id: this.idParent 
-      };
-      this.http.addFile(archivo).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
-          if(!archivo.esCarpeta) {
-            const cuestionario: Repositorio = { id: archivo.id, nombre: archivo.nombre, nota: 10, tiempo: { hour: 0, minute: 30 }, preguntas: []};
-            this.http.addCuestionario(cuestionario).subscribe();
+      const archivo: Archivo = { id: newIdArchivo, nombre: nombre, esCarpeta: result['esCarpeta'], fechaCreacion: fecha, fechaModificacion: fecha, parent_id: this.idParent };
+      const cuestionario: Repositorio = { id: archivo.id, nombre: archivo.nombre, puntaje: 10, tiempo: { hour: 0, minute: 30 }, preguntas: []};
+      forkJoin([
+        this.http.addFile(archivo),
+        this.http.addCuestionario(cuestionario)
+      ]).subscribe(responses => {
+        let ok = true;
+        for(let i = 0; i < responses.length; i++) {
+          if((responses[i] as HttpResponse<Object>).status != 200) {
+            ok = false;
           }
+        }
+        if(ok) {
           this.dataSource.data.push(archivo);  
           this.generateDataSource(this.dataSource.data.sort((a,b) => a.nombre.localeCompare(b.nombre)));
         } else {

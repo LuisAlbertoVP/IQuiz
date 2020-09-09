@@ -47,6 +47,9 @@ namespace IdentityService.Controllers
                 token = new {
                     id =  new JwtSecurityTokenHandler().WriteToken(result),
                     expiration = result.ValidTo
+                },
+                rol = new {
+                    descripcion = user.Rol.Descripcion
                 }
             };
             return Ok(results);
