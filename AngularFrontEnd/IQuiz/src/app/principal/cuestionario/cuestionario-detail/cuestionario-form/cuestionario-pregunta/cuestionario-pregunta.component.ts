@@ -67,10 +67,4 @@ export class CuestionarioPreguntaComponent implements OnInit, OnChanges {
     const tieneRespuesta = this.tipo == 4|| this.tipo == 5 || this.tipo == 6;
     this.literales.push(this.service.toLiteralForm(literal, this.tipo == 6, tieneRespuesta));
   }
-
-  onFileSelect(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-    }
-  }
 }

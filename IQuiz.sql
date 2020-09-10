@@ -220,6 +220,11 @@ drop database if exists dbCuestionarioAdministracion;
 create database dbCuestionarioAdministracion;
 use dbCuestionarioAdministracion;
 
+create table clipboard(
+    id varchar(100) primary key not null,
+    cuerpo json null
+);
+
 create table cuestionario(
     id varchar(100) primary key not null,
     puntaje double not null,
@@ -270,6 +275,20 @@ create table acceso_usuario(
     foreign key(cuestionario_compartido_id) references cuestionario_compartido(id)
         on delete cascade
 );
+
+delimiter //
+create procedure get_clipboard(in_usuario_id varchar(100))
+begin
+    select cuerpo from clipboard where id = in_usuario_id;
+end //
+delimiter ;
+
+delimiter //
+create procedure add_clipboard(in_usuario_id varchar(100), json JSON)
+begin
+    insert into clipboard values(in_usuario_id, json) on duplicate key update cuerpo = json;
+end //
+delimiter ;
 
 delimiter //
 create procedure add_cuestionarios_compartidos(json JSON)
@@ -494,6 +513,7 @@ create table archivo(
 
 /* Inserts */
 insert into archivo values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341',"root", true, now(), now(), NULL, 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', NULL);
+insert into archivo values('5374dd3a-c580-4ee2-944c-a1e85538cfc5',"Curso Prueba", false, now(), now(), 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
 /* End Inserts*/
 
 delimiter //
@@ -587,7 +607,7 @@ create table usuario(
     id varchar(100) primary key not null,
     nombres varchar(50) not null,
     correo_institucional varchar(320) not null,
-    rol_id varchar(100) not null
+    rol_id varchar(10) not null
 );
 
 create table curso_usuario(
@@ -627,6 +647,12 @@ create table prueba(
     foreign key(cuestionario_id) references cuestionario(id)
 );
 
+/* Inserts */
+insert into curso values('f6663f21-16dd-4f1f-af5d-aa379c9848d5', 'Curso Prueba', 'Prueba', 1);
+insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'luis velastegui','luis.velasteguipi@ug.edu.ec', '1');
+insert into curso_usuario values(1, 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
+/* End Inserts*/
+
 delimiter //
 create procedure add_curso(json JSON)
 begin
@@ -645,7 +671,7 @@ begin
     declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
     declare _nombres varchar(50) default json_unquote(json_extract(json, '$.nombres'));
     declare _correo_institucional varchar(320) default json_unquote(json_extract(json, '$.correoInstitucional'));
-    declare _rol_id varchar(50) default json_unquote(json_extract(json, '$.rol.id'));
+    declare _rol_id varchar(10) default json_unquote(json_extract(json, '$.rol.id'));
     declare _cursos json default json_extract(json, '$.cursos');
     declare _length_curso int default json_length(_cursos);
     declare _curso_id varchar(100);

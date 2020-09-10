@@ -34,7 +34,7 @@ export class AulaComentariosComponent implements OnInit {
       comentario.id = uuid();
       comentario.fecha = moment().format('YYYY-MM-DD h:mm:ss');
       this.service.addPostComentario(this.id, comentario).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.comentarios.push(comentario);
         } else {
           this.snackBar.open('No se ha publicado el comentario', 'Error', { duration: 2000 });

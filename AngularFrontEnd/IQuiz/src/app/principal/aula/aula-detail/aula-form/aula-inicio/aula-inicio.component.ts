@@ -61,7 +61,7 @@ export class AulaInicioComponent implements OnInit {
       post.id = uuid();
       post.fecha = moment().format('YYYY-MM-DD h:mm:ss');
       this.service.addCursoPost(this.curso.id, post).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.posts.push(post);
         } else {
           this.snackBar.open('No se ha publicado el post', 'Error', { duration: 2000 });

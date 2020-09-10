@@ -20,6 +20,10 @@
         <button (click)="mover()" ngbDropdownItem>Mover</button>
         <button (click)="eliminar()" ngbDropdownItem>Eliminar</button>
         <div class="dropdown-divider"></div>
+        <button (click)="file.click()" ngbDropdownItem>Subir</button>
+        <input #file (change)="subir($event.target.files)" type="file" accept=".json" multiple="multiple" class="d-none"/>
+        <button (click)="descargar()" ngbDropdownItem>Descargar</button>
+        <div class="dropdown-divider"></div>
         <button (click)="initPrueba()" ngbDropdownItem>Iniciar Prueba</button>
       </div>
     </div>
@@ -30,6 +34,9 @@
   <mat-form-field class="w-100">
     <mat-label>Filtrar</mat-label>
     <input matInput (keyup)="applyFilter($event.target.value)" #input>
+    <button mat-button *ngIf="input.value" matSuffix mat-icon-button aria-label="Clear" (click)="input.value=''">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 </div>
 

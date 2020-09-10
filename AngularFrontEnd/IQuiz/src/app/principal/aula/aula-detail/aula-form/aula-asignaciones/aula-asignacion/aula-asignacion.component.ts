@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CuestionarioService } from '@cuestionario_service/*';
 import { AulaService } from '@aula_service/*';
@@ -55,10 +55,10 @@ export class AulaAsignacionComponent implements OnInit {
     }
     return this.fb.group({
       id: [asignacion.id],
-      tema: [asignacion.tema],
+      tema: [asignacion.tema, Validators.required],
       instrucciones: [asignacion.instrucciones],
-      fecha: [moment(asignacion.fecha).toDate()],
-      tiempo: [asignacion.tiempo],
+      fecha: [moment(asignacion.fecha).toDate(), Validators.required],
+      tiempo: [asignacion.tiempo, Validators.required],
       cuestionarios: this.fb.array(cuestionarios)
     });
   }
@@ -86,9 +86,9 @@ export class AulaAsignacionComponent implements OnInit {
       const asignacion: Asignacion = this.form.value;
       asignacion.fecha = moment(asignacion.fecha).format('YYYY-MM-DD');
       this.aulaService.addCursoAsignacion(this.curso, asignacion).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.cuestionarioService.addCuestionariosCompartido(asignacion).subscribe((response: HttpResponse<Object>) => {
-            if(response.status == 200) {
+            if(response?.status == 200) {
               this.snackBar.open('Asignacion actualizada', 'Ok', { duration: 2000, panelClass: ['success'] });
             } else {
               this.snackBar.open('Ha ocurrido algunos errores', 'Error', { duration: 2000 });
@@ -99,6 +99,7 @@ export class AulaAsignacionComponent implements OnInit {
         }
       });
     } else {
+      this.form.markAllAsTouched();
       this.snackBar.open('Algunos campos tienen errores', 'Error', { duration: 2000 });
     }
   }

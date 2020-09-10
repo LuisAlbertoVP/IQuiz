@@ -18,6 +18,28 @@ class CuestionarioController extends Controller
     }
 
 
+    public function getClipboard(Request $request) {
+        $idUsuario = $request->get('id');
+        $preguntas = DB::select('CALL get_clipboard(?)', [$idUsuario])[0];
+        if($preguntas->cuerpo) {
+            return $preguntas->cuerpo;
+        }
+        return response()->json(['status' => 'not found'], 404);
+    }
+
+    public function getCuestionarios(Request $request) {
+        $idUsuario = $request->get('id');
+        $json = $request->getContent();
+        $ids_cuestionario = json_decode($json, true);
+        $cuestionario = Cuestionario::with(['preguntas','preguntas.literales'])
+            ->selectRaw('id,puntaje,nombre,descripcion,tiempo')
+            ->where('usuario_id', $idUsuario)->whereIn('id', $ids_cuestionario)->get();
+        if($cuestionario) {
+            return $cuestionario;
+        }
+        return response()->json(['status' => 'not found'], 404);
+    }
+
     public function getCuestionario(Request $request, $id) {
         $idUsuario = $request->get('id');
         $cuestionario = Cuestionario::with(['preguntas','preguntas.literales'])
@@ -43,6 +65,13 @@ class CuestionarioController extends Controller
             return response()->json(['status' => 'not found'], 404);
         }
         return response()->json(['status' => 'not authorized'], 403);
+    }
+
+    public function addClipboard(Request $request) {
+        $idUsuario = $request->get('id');
+        $json = $request->getContent();
+        DB::select('CALL add_clipboard(?,?)', [$idUsuario, $json]);
+        return response()->json(['status' => 'success'], 200);
     }
     
     public function addCuestionario(Request $request){

@@ -74,39 +74,41 @@
       </ng-container>
     </div>
   </div>
+</form>
 
-  <ng-template #longContent let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Ordenar</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
+<ng-template #longContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Ordenar</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body w-100">
+    <div class="d-flex mb-1">
+      <button mat-icon-button color="primary" (click)="getClipboard()">
+        <mat-icon>assignment_turned_in</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="addClipboard()" class="ml-auto">
+        <mat-icon>note_add</mat-icon>
       </button>
     </div>
-    <div class="modal-body w-100">
-      <div class="d-flex mb-1">
-        <button mat-icon-button color="primary">
-          <mat-icon>assignment_turned_in</mat-icon>
+    <div *ngFor="let pregunta of preguntas.controls; let i=index" class="shadow3 mt-3 mb-3">
+      <div class="d-flex">
+        <button mat-icon-button color="accent" (click)="bajarPregunta(i, pregunta.value)" class="ml-auto">
+          <mat-icon>arrow_downward</mat-icon>
         </button>
-        <button mat-icon-button color="primary" class="ml-auto">
-          <mat-icon>note_add</mat-icon>
+        <button mat-icon-button color="accent" (click)="subirPregunta(i, pregunta.value)">
+          <mat-icon>arrow_upward</mat-icon>
         </button>
       </div>
-      <div *ngFor="let pregunta of preguntas.controls; let i=index" class="shadow3 mt-3 mb-3">
-        <div class="d-flex">
-          <button mat-icon-button color="accent" (click)="bajarPregunta(i, pregunta.value)" class="ml-auto">
-            <mat-icon>arrow_downward</mat-icon>
-          </button>
-          <button mat-icon-button color="accent" (click)="subirPregunta(i, pregunta.value)">
-            <mat-icon>arrow_upward</mat-icon>
-          </button>
-        </div>
-        <div class="ml-2">
-          <mat-checkbox class="blue"><span class="accent">{{ pregunta.get('orden').value + '.- ' }}</span>{{ pregunta.get('descripcion').value }}</mat-checkbox>
-        </div>
+      <div class="ml-2">
+        <mat-checkbox (change)="addChecked($event.checked, i)" class="blue">
+          <span class="accent">{{ pregunta.get('orden').value + '.- ' }}</span>{{ pregunta.get('descripcion').value }}
+        </mat-checkbox>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
-    </div>
-  </ng-template>
-</form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>

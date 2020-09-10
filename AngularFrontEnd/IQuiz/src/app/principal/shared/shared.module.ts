@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,10 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PaginatorIntlService } from './services/paginator-intl.service';
 
 @NgModule({
-  declarations: [
-    HeaderComponent, 
-    FooterComponent
-  ],
+  declarations: [ HeaderComponent ],
   imports: [
     RouterModule,
     CommonModule,
@@ -45,8 +41,7 @@ import { PaginatorIntlService } from './services/paginator-intl.service';
     MatDividerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    HeaderComponent,
-    FooterComponent
+    HeaderComponent
   ],
   providers: [ { provide: MatPaginatorIntl, useClass: PaginatorIntlService} ]
 })

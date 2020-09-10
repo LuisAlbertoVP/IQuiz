@@ -6,5 +6,4 @@
 .my-card { padding: 20px; }
 .bg-comment { background-color: #edecf5; }
 .my-card, .bg-comment { border-radius: 15px; }
-.curso { border-radius: 30px; }
 .header-image { background-image: url("/assets/task.png"); background-size: cover; }

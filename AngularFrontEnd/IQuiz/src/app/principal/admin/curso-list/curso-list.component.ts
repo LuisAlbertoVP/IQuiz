@@ -65,7 +65,7 @@ export class CursoListComponent implements OnInit {
   updateEstado(curso: Curso) {
     if(curso.estado == 1) {
       this.service.disabledCurso(curso.id).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           curso.estado = 0;
         } else {
           this.snackBar.open('No se ha desactivado el curso','Error', { duration: 2000 });
@@ -73,7 +73,7 @@ export class CursoListComponent implements OnInit {
       });
     } else {
       this.service.enabledCurso(curso.id).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           curso.estado = 1;
         } else {
           this.snackBar.open('No se ha activado el curso','Error', { duration: 2000 });
@@ -90,7 +90,7 @@ export class CursoListComponent implements OnInit {
         curso.estado = 1;
       }
       this.service.addCurso(curso).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           let band: boolean = true;
           for(let i = 0; i < this.dataSource.data.length; i++) {
             if(this.dataSource.data[i].id == curso.id) {

@@ -1,7 +1,7 @@
 <div class="container bg-light pb-5">
   <div class="row d-flex mt-3 mb-3 p-3 txt-aula">
     <h4 class="p-3 accent">{{ curso.materia }}</h4>
-    <h3 class="p-3 accent shadow3 ml-auto curso">{{ curso.nombre }}</h3>
+    <h3 class="p-3 accent ml-auto">{{ curso.nombre.toUpperCase() }}</h3>
   </div>
   <form [formGroup]="post" (ngSubmit)="onSubmit()" class="row p-3 mb-5">
     <div class="container d-flex shadow3 w-75 p-1 m0-auto bg-white">

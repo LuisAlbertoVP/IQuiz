@@ -68,8 +68,12 @@ class ExplorerController extends Controller
     public function deleteFile(Request $request) {
         $idUsuario = $request->get('id');
         $ids = json_decode($request->getContent(), true);
-        Archivo::where('usuario_id', $idUsuario)->whereIn('id', $ids)->delete();
-        return response()->json(['status' => 'success'], 200);
+        $children = Archivo::where('usuario_id', $idUsuario)->whereIn('parent_id', $ids)->get();
+        if(sizeof($children) == 0) {
+            Archivo::where('usuario_id', $idUsuario)->whereIn('id', $ids)->delete();
+            return response()->json(['status' => 'success'], 200);
+        }
+        return response()->json(['status' => 'bad request'], 400);
     }
 
     public function moveFiles(Request $request, $id) {

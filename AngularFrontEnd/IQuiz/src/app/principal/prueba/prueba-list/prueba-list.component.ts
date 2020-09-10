@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PruebaService } from '@prueba_service/PruebaService';
 import { Repositorio } from '@models/repositorio';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prueba-list',
@@ -20,21 +19,24 @@ export class PruebaListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: PruebaService,
-    private snackBar: MatSnackBar
+    private http: PruebaService
   ) { }
 
   ngOnInit(): void {
     this.http.getPruebas().subscribe(pruebas => {
       if(pruebas?.length > 0) {
         pruebas.forEach(prueba => prueba.duracion = prueba.tiempo.hour + ':' + prueba.tiempo.minute);
-        this.dataSource = new MatTableDataSource(pruebas);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.generateDataSource(pruebas);
       } else {
-        this.snackBar.open('No existen pruebas', 'Error', { duration: 2000 });
+        this.generateDataSource([]);
       }
     });
+  }
+
+  private generateDataSource(pruebas: Repositorio[]) {
+    this.dataSource = new MatTableDataSource(pruebas);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {

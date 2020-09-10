@@ -40,11 +40,11 @@ export class PruebaDetailComponent implements OnInit {
       let clave = this.activatedRoute.snapshot.queryParamMap.get('clave');
       const cuestionario: Cuestionario = { id: idCuestionario, clave: clave };
       this.serviceCuestionario.getCuestionarioCompartido(idAsignacion, cuestionario).subscribe((response: HttpResponse<Repositorio>) =>{
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.cuestionario = response.body;
           this.conAsignacion = true;
         } else {
-          this.snackBar.open('No se pudo elaborar prueba', 'Error', { duration: 2000 });
+          this.snackBar.open('No se pudo elaborar la prueba', 'Error', { duration: 2000 });
         }
       });    
     } else {
@@ -59,7 +59,7 @@ export class PruebaDetailComponent implements OnInit {
                 this.cuestionario = cuestionario;
                 this.conAsignacion = false;
               } else {
-                this.snackBar.open('No se pudo elaborar prueba', 'Error', { duration: 2000 });
+                this.snackBar.open('No se pudo elaborar la prueba', 'Error', { duration: 2000 });
               }
             });
           }

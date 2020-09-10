@@ -60,13 +60,17 @@ export class CuestionarioControlService {
     });
   }
 
-  toTiempoForm = (t: Tiempo) => t ? 
-      this.fb.group({ hour: [t.hour], minute: [t.minute] }) : this.fb.group({});
+  toTiempoForm(t: Tiempo) { 
+    return t ? this.fb.group({ 
+      hour: [t.hour, Validators.required], 
+      minute: [t.minute, [Validators.required, Validators.min(5)]] }) 
+    : this.fb.group({});
+  }
 
   toPreguntaForm(p: Pregunta) {
     return this.fb.group({
       id: [p.id],
-      puntaje: [p.puntaje, [Validators.required, Validators.min(1)]],
+      puntaje: [p.puntaje, [Validators.required]],
       orden: [p.orden],
       tipo: [p.tipo],
       descripcion: [p.descripcion, Validators.required],

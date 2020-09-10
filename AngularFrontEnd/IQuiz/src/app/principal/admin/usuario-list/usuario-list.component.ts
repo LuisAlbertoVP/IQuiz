@@ -45,7 +45,7 @@ export class UsuarioListComponent implements OnInit {
   updateEstado(user: User) {
     if(user.estado == 1) {
       this.service.disabledUser(user.id).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           user.estado = 0;
         } else {
           this.snackBar.open('No se ha desactivado el usuario','Error', { duration: 2000 });
@@ -53,7 +53,7 @@ export class UsuarioListComponent implements OnInit {
       });
     } else {
       this.service.enabledUser(user.id).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           user.estado = 1;
         } else {
           this.snackBar.open('No se ha activado el usuario','Error', { duration: 2000 });

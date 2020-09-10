@@ -4,7 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BreadcrumbNode, Archivo } from '@models/file';
-import { Repositorio } from '@models/repositorio';
+import { Repositorio, Pregunta } from '@models/repositorio';
 import { Cuestionario, Asignacion } from '@models/aula';
 import { HttpErrorHandlerService, HandleError } from '../../http-error-handler.service';
 
@@ -44,6 +44,12 @@ export class CuestionarioService {
   moveFiles = (ids: string[], id: string) => this.http.post<Archivo[]>(`${this.apiExplorer}/${id}/move`, ids, httpOptions)
       .pipe(catchError(this.handleError('moveFiles', ids)));
 
+  getClipboard = (): Observable<Pregunta[]> => this.http.get<Pregunta[]>(`${this.apiCuestionario}/clipboard`)
+      .pipe(catchError(this.handleError('getClipboard', [])));
+
+  getCuestionarios = (ids: string[]) => this.http.post<Repositorio[]>(`${this.apiCuestionario}/download`, ids, httpOptions)
+      .pipe(catchError(this.handleError('getCuestionarios', ids)));
+
   getCuestionario = (id: string): Observable<Repositorio> => this.http.get<Repositorio>(`${this.apiCuestionario}/${id}`)
       .pipe(catchError(this.handleError<Repositorio>('getCuestionario')));
 
@@ -51,6 +57,9 @@ export class CuestionarioService {
       this.http.post<Repositorio>(`${this.apiCuestionario}/compartido/${id}`, cuestionario, httpOptions)
       .pipe(catchError(this.handleError('getCuestionarioCompartido', cuestionario)));
   
+  addClipboard = (preguntas: Pregunta[]) => this.http.post(`${this.apiCuestionario}/clipboard`, preguntas, httpOptions)
+      .pipe(catchError(this.handleError('addClipboard', preguntas)));
+
   addCuestionario = (cuestionario: Repositorio) => this.http.post(this.apiCuestionario, cuestionario, httpOptions)
       .pipe(catchError(this.handleError('addCuestionario', cuestionario)));
 

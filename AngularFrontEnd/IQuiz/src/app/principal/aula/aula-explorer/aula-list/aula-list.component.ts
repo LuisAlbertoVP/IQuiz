@@ -59,6 +59,8 @@ export class AulaListComponent implements OnInit, OnChanges {
       this.dataSource.sort = this.sort;
       
     }
+
+    private errorMessage = (message: string) => this.snackBar.open(message, 'Error', { duration: 2000 });
   
     isAllSelected() {
       const numSelected = this.selection.selected.length;
@@ -84,11 +86,11 @@ export class AulaListComponent implements OnInit, OnChanges {
       const fecha = moment().format('YYYY-MM-DD h:mm:ss');
       const archivo: Archivo = { id: newIdArchivo, nombre: nombre, esCarpeta: true, fechaCreacion: fecha, fechaModificacion: fecha, parent_id: this.idParent };
       this.http.addFile(archivo).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.dataSource.data.push(archivo);  
           this.generateDataSource(this.dataSource.data.sort((a,b) => a.nombre.localeCompare(b.nombre)));
         } else {
-          this.snackBar.open('No se ha podido crear la carpeta', 'Error', { duration: 2000 });
+          this.errorMessage('No se ha podido crear la carpeta');
         }
       });
     }, (reason) => {});
@@ -104,7 +106,7 @@ export class AulaListComponent implements OnInit, OnChanges {
 
   private verificarCheks(): boolean {
     if(this.selection.isEmpty()) {
-      this.snackBar.open('No hay selecciones disponibles', 'Error', { duration: 2000 });
+      this.errorMessage('No hay selecciones disponibles');
       return false;
     }
     return true;
@@ -112,7 +114,7 @@ export class AulaListComponent implements OnInit, OnChanges {
 
   private verificarMultiplesChecks(): boolean {
     if(this.selection.selected?.length > 1) {
-      this.snackBar.open('Se han detectado multiples selecciones', 'Error', { duration: 2000 });
+      this.errorMessage('Se han detectado multiples selecciones');
       return true;
     }
     return false;
@@ -127,19 +129,19 @@ export class AulaListComponent implements OnInit, OnChanges {
             archivo.nombre = result['nombre'];
             archivo.fechaModificacion = moment().format('YYYY-MM-DD h:mm:ss');
             this.http.addFile(archivo).subscribe((response: HttpResponse<Object>) => {
-              if(response.status == 200) {
+              if(response?.status == 200) {
                 this.generateDataSource(this.dataSource.data.sort((a,b) => a.nombre.localeCompare(b.nombre)));
                 this.selection.clear(); 
               } else {
-                this.snackBar.open('No se han guardado los cambios', 'Error', { duration: 2000 });
+                this.errorMessage('No se han guardado los cambios');
               }
             });
           } else {
-            this.snackBar.open('No se han realizado cambios', 'Error', { duration: 2000 });
+            this.errorMessage('No se han realizado cambios');
           }
         }, (reason) => {});
       } else {
-        this.snackBar.open('Se han detectado multiples selecciones', 'Error', { duration: 2000 });
+        this.errorMessage('Se han detectado multiples selecciones');
       }
     }
   }
@@ -161,12 +163,13 @@ export class AulaListComponent implements OnInit, OnChanges {
     const cb: string[] = this.activatedRoute.snapshot.queryParamMap.getAll('cb');
     if(cb.length > 0) {
       this.http.moveFiles(cb, this.idParent).subscribe((response: HttpResponse<Archivo[]>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           this.generateDataSource(response.body.sort((a,b) => a.nombre.localeCompare(b.nombre)));
           this.clipboard = [];
           this.updateExtrasRequest.emit(null);
+          this.selection.clear();
         } else {
-          this.snackBar.open('No se han guardado los cambios', 'Error', { duration: 2000 });
+          this.errorMessage('No se han guardado los cambios');
         }
       });
     }
@@ -177,7 +180,7 @@ export class AulaListComponent implements OnInit, OnChanges {
       let coincidencias = this.selection.selected.filter(archivo => !archivo.esCarpeta);
       if(coincidencias.length == 0) {
         this.http.deleteFile(this.idChecked()).subscribe((response: HttpResponse<Object>) => {
-          if(response.status == 200) {
+          if(response?.status == 200) {
             this.selection.selected.forEach(archivo => {
               const index = this.dataSource.data.indexOf(archivo);
               this.dataSource.data.splice(index, 1);
@@ -185,11 +188,11 @@ export class AulaListComponent implements OnInit, OnChanges {
             this.generateDataSource(this.dataSource.data.sort((a,b) => a.nombre.localeCompare(b.nombre)));
             this.selection.clear();  
           } else {
-            this.snackBar.open('No se han eliminado las selecciones', 'Error', { duration: 2000 });
+            this.snackBar.open('No se han eliminado las selecciones, verifique si las carpetas están vacías', 'Error', { duration: 6000 });
           }
         });
       } else {
-        this.snackBar.open('No se pueden eliminar las aulas', 'Error', { duration: 2000 });
+        this.errorMessage('No se pueden eliminar las aulas');
       }
     }
   }
@@ -210,14 +213,14 @@ export class AulaListComponent implements OnInit, OnChanges {
           const cb: NavigationExtras = { queryParams: { cb: this.clipboard } };
           this.router.navigate(['/principal/aulas', archivo.id], cb);
         } else {
-          this.snackBar.open('No se puede mover aqui', 'Error', { duration: 2000 });
+          this.errorMessage('No se puede mover aqui');
         }
       } else {
         this.router.navigate(['/principal/aulas', archivo.id]);
       }
     } else {
       if(this.clipboard.length > 0) {
-        this.snackBar.open('No se puede mover aqui', 'Error', { duration: 2000 });
+        this.errorMessage('No se puede mover aqui');
       } else {
         this.router.navigate(['/principal/aula', archivo.id, archivo.curso_id ]);
       }

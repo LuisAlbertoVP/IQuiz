@@ -77,11 +77,11 @@ export class PruebaFormComponent implements OnInit, OnDestroy {
       const pregsResult = this.form.getRawValue()['preguntas'];
       const prueba: Repositorio = this.calificar.calificarPrueba(this.cuestionario, pregsResult);
       this.http.addPrueba(prueba).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
+        if(response?.status == 200) {
           if(this.conAsignacion) {
             const newPrueba: Prueba = { id: this.idPrueba, nota: prueba.puntaje };
             this.http.addPruebaCurso(newPrueba).subscribe((response: HttpResponse<Object>) => {
-              if(response.status == 200) {
+              if(response?.status == 200) {
                 this.next();
               } else {
                 this.snackBar.open('Ha ocurrido algunos errores, vuelva a intentarlo', 'Error', { duration: 3000 });

@@ -13,7 +13,13 @@
 |
 */
 
+$router->get('cuestionario-administracion/cuestionarios/clipboard', 'CuestionarioController@getClipboard');
+
+$router->post('cuestionario-administracion/cuestionarios/download', 'CuestionarioController@getCuestionarios');
+
 $router->get('cuestionario-administracion/cuestionarios/{id}', 'CuestionarioController@getCuestionario');
+
+$router->post('cuestionario-administracion/cuestionarios/clipboard', 'CuestionarioController@addClipboard');
 
 $router->post('cuestionario-administracion/cuestionarios', 'CuestionarioController@addCuestionario');
 

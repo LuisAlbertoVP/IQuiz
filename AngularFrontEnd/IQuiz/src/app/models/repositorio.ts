@@ -15,6 +15,7 @@ export interface Literal {
   descripcion?: string;
   respuesta?: string;
   respuesta2?: string;
+  pregunta_id?: string;
   entradas? : Entrada[];
 }
 
@@ -40,6 +41,7 @@ export interface Pregunta {
   descripcion: string;
   tabla?: Tabla;
   retroalimentacion?: string;
+  cuestionario_id?: string;
   literales?: Literal[];
 }
 

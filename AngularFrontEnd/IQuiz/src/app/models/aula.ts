@@ -1,3 +1,5 @@
+import { Tiempo } from './time';
+
 export interface Comentario {
   id: string;
   autor?: string;
@@ -33,7 +35,7 @@ export interface Asignacion {
   tema: string;
   instrucciones?: string;
   fecha: string;
-  tiempo: string;
+  tiempo: string | Tiempo;
   cuestionarios: Cuestionario[]
 }
 

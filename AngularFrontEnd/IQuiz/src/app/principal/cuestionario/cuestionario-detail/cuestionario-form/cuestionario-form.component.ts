@@ -17,10 +17,11 @@ export class CuestionarioFormComponent implements OnInit {
   @Input() cuestionario: Repositorio;
   form: FormGroup;
   isCollapsed: boolean = false;
+  itemsChecked: boolean[] = [];
   pages: string;
   page: number = 1;
   display: string[];
-  totalNota: number;
+  totalNota: number = 0;
 
   constructor(
     private modalService: NgbModal,
@@ -32,7 +33,6 @@ export class CuestionarioFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.service.toCuestionarioForm(this.cuestionario);
     this.pages = this.preguntas.length + '0';
-    this.updateTotalNota();
     this.form.get('puntaje').valueChanges.subscribe(newValue => {
       this.updateTotalNota();
     });
@@ -40,6 +40,42 @@ export class CuestionarioFormComponent implements OnInit {
 
   get preguntas() {
     return this.form.get('preguntas') as FormArray;
+  }
+
+  addChecked = (checked: boolean, i: number) => this.itemsChecked[i] = checked;
+
+  getClipboard() {
+    this.http.getClipboard().subscribe(preguntas => {
+      preguntas.forEach(pregunta => {
+        pregunta.id = uuid();
+        pregunta.orden = this.preguntas.length + 1;
+        pregunta.literales.forEach(literal => literal.id = uuid());
+        this.preguntas.push(this.service.toPreguntaForm(pregunta));
+        this.addPagination();
+        this.updateTotalNota();
+      });
+    });
+  }
+
+  addClipboard() {
+    const preguntas: Pregunta[] = [];
+    for(let i = 0; i < this.itemsChecked.length; i++) {
+      if(this.itemsChecked[i]) {
+        preguntas.push(this.preguntas.at(i).value);
+      }
+    }
+    this.modalService.dismissAll();
+    if(preguntas.length > 0) {
+      this.http.addClipboard(preguntas).subscribe((response: HttpResponse<Object>) => {
+        if(response?.status == 200) {
+          this.snackBar.open('Preguntas agregadas al portapapeles', 'Ok', { duration: 2000, panelClass: ['success'] });
+        } else {
+          this.errorMessage('No se ha guardado en el portapapeles');
+        }
+      });
+    } else {
+      this.errorMessage('No hay selecciones disponibles');
+    }
   }
 
   ordenarPreguntas = (longContent) => this.modalService.open(longContent, { scrollable: true });
@@ -72,8 +108,13 @@ export class CuestionarioFormComponent implements OnInit {
 
   removePregunta(index: number) {
     this.preguntas.removeAt(index);
-    for(let i = 0; i < this.preguntas.length; i++) {
-      this.preguntas.at(i).get('orden').setValue(i + 1);
+    if(this.preguntas.length == 0) {
+      this.totalNota = 0;
+    } else {
+      for(let i = 0; i < this.preguntas.length; i++) {
+        this.preguntas.at(i).get('orden').setValue(i + 1);
+      }
+      this.updateTotalNota();
     }
     this.deletePagination(index + 1);
   }
@@ -81,9 +122,10 @@ export class CuestionarioFormComponent implements OnInit {
   addPregunta() {
     const newPosition: number = this.preguntas.length + 1;
     const newIdPregunta: string = uuid();
-    const pregunta: Pregunta = { id: newIdPregunta, orden: newPosition, puntaje: 0, tipo: 0, descripcion: '' };
+    const pregunta: Pregunta = { id: newIdPregunta, orden: newPosition, puntaje: 1, tipo: 0, descripcion: '' };
     this.preguntas.push(this.service.toPreguntaForm(pregunta));
     this.addPagination();
+    this.updateTotalNota();
   }
 
   private addPagination() {
@@ -111,18 +153,28 @@ export class CuestionarioFormComponent implements OnInit {
     this.totalNota = +this.form.get('puntaje').value - total;
   }
 
+  private errorMessage = (message: string) => this.snackBar.open(message, 'Error', { duration: 2000 });
+
   onSubmit() {
-    if(this.form.valid) {
-      this.http.addCuestionario(this.form.getRawValue()).subscribe((response: HttpResponse<Object>) => {
-        if(response.status == 200) {
-          this.snackBar.open('Cuestionario actualizado', 'Ok', { duration: 2000, panelClass: ['success'] });
-        } else {
-          this.snackBar.open('No se han guardado los cambios', 'Error', { duration: 2000 });
-        }
-      });
+    if(this.totalNota < 0) {
+      this.errorMessage('No se puede asignar mas puntaje');
     } else {
-      this.form.markAllAsTouched();
-      this.snackBar.open('Algunos campos tienen errores', 'Error', { duration: 2000 });
+      if(this.totalNota == 0) {
+        if(this.form.valid) {
+          this.http.addCuestionario(this.form.getRawValue()).subscribe((response: HttpResponse<Object>) => {
+            if(response?.status == 200) {
+              this.snackBar.open('Cuestionario actualizado', 'Ok', { duration: 2000, panelClass: ['success'] });
+            } else {
+              this.errorMessage('No se han guardado los cambios');
+            }
+          });
+        } else {
+          this.form.markAllAsTouched();
+          this.errorMessage('Algunos campos tienen errores');
+        }
+      } else {
+        this.errorMessage('Tiene puntos por asignar');
+      }
     }
   }
 }
