@@ -18,7 +18,7 @@ namespace ExplorerGateway
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => ic.AddJsonFile("configuration.json"))
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5004");
+                .UseUrls("http://192.168.1.13");
             return builder.Build();
         }
     }

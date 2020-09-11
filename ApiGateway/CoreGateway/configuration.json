@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8002
+          "Host": "192.168.1.20",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/cuestionario-administracion/{everything}",
@@ -24,8 +24,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8003
+          "Host": "192.168.1.21",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/prueba-administracion/{everything}",

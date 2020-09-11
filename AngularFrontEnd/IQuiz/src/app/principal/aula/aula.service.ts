@@ -16,9 +16,9 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AulaService {
-  apiExplorer: string = 'http://localhost:5004/explorer-aula/aulas';
-  apiAsignacion: string = 'http://localhost:5006/asignacion-administracion/cursos';
-  apiPost: string = 'http://localhost:5006/post-administracion/cursos';
+  apiExplorer: string = 'http://192.168.1.12:8001/explorer-aula/aulas';
+  apiAsignacion: string = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
+  apiPost: string = 'http://192.168.1.16:8003/post-administracion/cursos';
   private handleError: HandleError;
 
   constructor(
@@ -68,6 +68,6 @@ export class AulaService {
   getCursoPosts = (id: string): Observable<Post[]> => this.http.get<Post[]>(`${this.apiPost}/${id}/posts`)
       .pipe(catchError(this.handleError('getCursoPosts', [])));
 
-  addPostComentario = (id: string, post: Post) => this.http.post(`http://localhost:5006/post-administracion/posts/${id}/comentarios`, post, httpOptions)
+  addPostComentario = (id: string, post: Post) => this.http.post(`http://192.168.1.16:8003/post-administracion/posts/${id}/comentarios`, post, httpOptions)
       .pipe(catchError(this.handleError('addCursoPost', post)));
 }

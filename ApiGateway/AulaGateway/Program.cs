@@ -18,7 +18,7 @@ namespace AulaGateway
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => ic.AddJsonFile("configuration.json"))
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5006");
+                .UseUrls("http://192.168.1.17");
             return builder.Build();
         }
     }

@@ -18,7 +18,7 @@ namespace CoreGateway
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => ic.AddJsonFile("configuration.json"))
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5005");
+                .UseUrls("http://192.168.1.15");
             return builder.Build();
         }
     }

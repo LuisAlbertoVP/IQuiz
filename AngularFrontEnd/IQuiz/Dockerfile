@@ -1,9 +1,11 @@
-FROM node
-WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+FROM node as build
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-COPY . .
-RUN npm run build --prod
+COPY . ./
+ARG configuration=production
+RUN npm run build -- --output-path=/dist/out --configuration=$configuration
 
 FROM nginx
-COPY --from=builder /usr/src/app/dist/IQuiz/ /usr/share/nginx/html
+COPY --from=build /dist/out/ /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf

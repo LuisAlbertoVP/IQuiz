@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8004
+          "Host": "192.168.1.22",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/asignacion-administracion/{everything}",
@@ -24,8 +24,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8005
+          "Host": "192.168.1.23",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/post-administracion/{everything}",

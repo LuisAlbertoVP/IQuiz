@@ -22,7 +22,7 @@ export class PruebaFormComponent implements OnInit, OnDestroy {
   idPrueba: string;
   page: number = 1;
   interval: any;
-  segundos: number = 0; 
+  segundos: number = 0;
 
   constructor(
     private router: Router,
@@ -79,7 +79,7 @@ export class PruebaFormComponent implements OnInit, OnDestroy {
       this.http.addPrueba(prueba).subscribe((response: HttpResponse<Object>) => {
         if(response?.status == 200) {
           if(this.conAsignacion) {
-            const newPrueba: Prueba = { id: this.idPrueba, nota: prueba.puntaje };
+            const newPrueba: Prueba = { id: this.idPrueba, nota: prueba.nota };
             this.http.addPruebaCurso(newPrueba).subscribe((response: HttpResponse<Object>) => {
               if(response?.status == 200) {
                 this.next();

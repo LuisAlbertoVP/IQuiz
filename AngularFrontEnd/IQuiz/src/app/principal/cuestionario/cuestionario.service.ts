@@ -15,8 +15,8 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class CuestionarioService {
-  apiExplorer: string = 'http://localhost:5004/explorer-cuestionario/cuestionarios';
-  apiCuestionario: string = 'http://localhost:5005/cuestionario-administracion/cuestionarios';
+  apiExplorer: string = 'http://192.168.1.12:8001/explorer-cuestionario/cuestionarios';
+  apiCuestionario: string = 'http://192.168.1.14:8002/cuestionario-administracion/cuestionarios';
   private handleError: HandleError;
 
   constructor(

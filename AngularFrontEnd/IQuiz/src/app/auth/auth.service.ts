@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   login(user: User) {
-    return this.http.post<User>('http://localhost:5000/identity/login', user, httpOptions)
+    return this.http.post<User>('http://192.168.1.10:8000/identity/login', user, httpOptions)
       .pipe(catchError(this.handleError('login', user)));
   }
 

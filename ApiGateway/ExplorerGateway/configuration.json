@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8000
+          "Host": "192.168.1.18",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/explorer-cuestionario/{everything}",
@@ -24,8 +24,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 8001
+          "Host": "192.168.1.19",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/explorer-aula/{everything}",

@@ -16,8 +16,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PruebaService {
-  apiPrueba: string = 'http://localhost:5005/prueba-administracion/pruebas';
-  apiAsignacion: string = 'http://localhost:5006/asignacion-administracion/cursos';
+  apiPrueba: string = 'http://192.168.1.14:8002/prueba-administracion/pruebas';
+  apiAsignacion: string = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
   private handleError: HandleError;
 
   constructor(

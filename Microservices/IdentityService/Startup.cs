@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
 using IdentityService.Models.DAO;
 
 
@@ -19,13 +21,12 @@ namespace IdentityService
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
+            services.Configure<ForwardedHeadersOptions>(options => {
+                options.KnownProxies.Add(IPAddress.Parse("192.168.1.10"));
+            });
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed((host) => true)
-                    .AllowCredentials());
+                    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
             services.AddAuthentication().AddJwtBearer("Autenticado", config => {
                 config.SaveToken = true;
@@ -50,6 +51,9 @@ namespace IdentityService
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseForwardedHeaders(new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseRouting();

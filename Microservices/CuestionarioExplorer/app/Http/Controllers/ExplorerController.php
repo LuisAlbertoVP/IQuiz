@@ -18,7 +18,7 @@ class ExplorerController extends Controller
         return Archivo::selectRaw('id,nombre,es_carpeta as esCarpeta,parent_id')
             ->where('usuario_id', $idUsuario)->orderBy('nombre', 'asc')->get();
     }
-    
+
     public function getFileParents(Request $request, $id) {
         $idUsuario = $request->get('id');
         $result = DB::select("CALL parents_archivo(?,?)", [$idUsuario, $id == 'home' ? $idUsuario : $id]);
