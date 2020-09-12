@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth_service/AuthService';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth_service/*';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html'
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.css']
 })
-export class HeaderComponent implements OnInit {
-  isMenuCollapsed = true;
+export class SidenavComponent implements OnInit {
 
   constructor(
     public service: AuthService,
@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  navigate = (link: string) => this.router.navigate([link]);
 
   logout() {
     this.service.logout();

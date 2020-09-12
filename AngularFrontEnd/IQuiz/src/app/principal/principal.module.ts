@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
 import { PrincipalRoutingModule } from './principal-routing.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { AdminModule } from './admin/admin.module';
 import { CuestionarioModule } from './cuestionario/cuestionario.module';
 import { PruebaModule } from './prueba/prueba.module';
@@ -14,6 +16,8 @@ import { httpInterceptorProviders } from '../http-interceptors';
   imports: [
     SharedModule,
     PrincipalRoutingModule,
+    MatSidenavModule,
+    MatToolbarModule,
     AdminModule,
     CuestionarioModule,
     PruebaModule,

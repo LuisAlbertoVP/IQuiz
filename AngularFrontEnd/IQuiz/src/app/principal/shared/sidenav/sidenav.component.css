@@ -1,0 +1,13 @@
+.sidebar-panel {
+  width: 350px;
+  height: 100%;
+}
+
+h4, h5 {
+  font-size: 17px;
+  color:white;
+}
+
+.sidebar-header{
+  background: #6779dd;
+}

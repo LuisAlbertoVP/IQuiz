@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '../admin.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SharedService } from '@shared_service/shared';
 import { AuthService } from '@auth_service/*';
 import { User } from '@models/auth';
 import { Curso } from '@models/aula';
@@ -36,13 +37,16 @@ export class UsuarioDetailComponent implements OnInit {
   });
 
   constructor(
+    sharedService: SharedService,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private service: AdminService,
     private auth: AuthService,
     private snackBar: MatSnackBar
-  ) { }
+  ) { 
+    sharedService.changeTitle('Usuario');
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {

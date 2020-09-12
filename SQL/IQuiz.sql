@@ -53,8 +53,8 @@ insert into rol values(1, 'Administrador');
 insert into rol values(2, 'Profesor');
 insert into rol values(3, 'Estudiante');
 #clave 123
-insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', '0941500720', 'luis velastegui', 'luis.velasteguipi@ug.edu.ec', 'luisv-1@hotmail.com', 
-    'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 'luis velastegui', now(), 'luis velastegui', now());
+insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', '0941500720', 'Luis Alberto Velastegui Pino', 'luis.velasteguipi@ug.edu.ec', 'luisv-1@hotmail.com', 
+    'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 'Luis Alberto Velastegui Pino', now(), 'Luis Alberto Velastegui Pino', now());
 insert into rol_usuario(usuario_id, rol_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 1);
 insert into curso_usuario(usuario_id, curso_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
 /* End Inserts*/
@@ -659,7 +659,7 @@ create table prueba(
 
 /* Inserts */
 insert into curso values('f6663f21-16dd-4f1f-af5d-aa379c9848d5', 'Curso Prueba', 'Prueba', 1);
-insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'luis velastegui','luis.velasteguipi@ug.edu.ec', '1');
+insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'Luis Alberto Velastegui Pino','luis.velasteguipi@ug.edu.ec', '1');
 insert into curso_usuario(usuario_id, curso_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
 /* End Inserts*/
 

@@ -192,7 +192,7 @@ export class AulaListComponent implements OnInit, OnChanges {
           }
         });
       } else {
-        this.errorMessage('No se pueden eliminar las aulas');
+        this.errorMessage('No se pueden eliminar los cursos');
       }
     }
   }

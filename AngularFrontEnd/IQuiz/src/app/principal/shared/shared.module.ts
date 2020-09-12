@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { HeaderComponent } from './header/header.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -19,11 +20,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PaginatorIntlService } from './services/paginator-intl.service';
 
 @NgModule({
-  declarations: [ HeaderComponent ],
+  declarations: [ SidenavComponent ],
   imports: [
     RouterModule,
     CommonModule,
-    NgbModule
+    NgbModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule
   ],
   exports: [
     CommonModule,
@@ -41,7 +45,7 @@ import { PaginatorIntlService } from './services/paginator-intl.service';
     MatDividerModule,
     HttpClientModule,
     ReactiveFormsModule,
-    HeaderComponent
+    SidenavComponent
   ],
   providers: [ { provide: MatPaginatorIntl, useClass: PaginatorIntlService} ]
 })

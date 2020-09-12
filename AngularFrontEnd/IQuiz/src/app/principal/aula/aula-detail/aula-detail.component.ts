@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import { SharedService } from '@shared_service/shared';
 import { AulaService }  from '@aula_service/AulaService';
 import { Curso } from '@models/aula';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,10 +19,13 @@ export class AulaDetailComponent implements OnInit {
   curso: Curso;
 
   constructor(
+    sharedService: SharedService,
     private activatedRoute: ActivatedRoute, 
     private service: AulaService,
     private snackBar: MatSnackBar
-  ) { }
+  ) { 
+    sharedService.changeTitle('Curso');
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -29,7 +33,7 @@ export class AulaDetailComponent implements OnInit {
         if(curso?.id) {
           this.curso = curso;
         } else {
-          this.snackBar.open('No existe Aula', 'Error', { duration: 2000 });
+          this.snackBar.open('No existe Curso', 'Error', { duration: 2000 });
         }
       });
     });

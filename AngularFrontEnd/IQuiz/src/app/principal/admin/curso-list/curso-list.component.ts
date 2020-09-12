@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedService } from '@shared_service/shared';
 import { AdminService }  from '../admin.service';
 import { Curso } from '@models/aula';
 import { HttpResponse } from '@angular/common/http';
@@ -27,12 +28,15 @@ export class CursoListComponent implements OnInit {
   });
 
   constructor(
+    sharedService: SharedService,
     private router: Router,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private service: AdminService,
     private snackBar: MatSnackBar
-  ) { }
+  ) { 
+    sharedService.changeTitle('Cursos');
+  }
 
   ngOnInit(): void {
     this.service.getCursos().subscribe(cursos => {

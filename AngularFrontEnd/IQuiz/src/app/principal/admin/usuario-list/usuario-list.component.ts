@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedService } from '@shared_service/shared';
 import { AdminService }  from '../admin.service';
 import { User, Rol } from '@models/auth';
 import { HttpResponse } from '@angular/common/http';
@@ -19,10 +20,13 @@ export class UsuarioListComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
 
   constructor(
+    sharedService: SharedService,
     private router: Router,
     private service: AdminService,
     private snackBar: MatSnackBar
-  ) { }
+  ) { 
+    sharedService.changeTitle('Usuarios');
+  }
 
   ngOnInit(): void {
     this.service.getUsers().subscribe(usuarios => {

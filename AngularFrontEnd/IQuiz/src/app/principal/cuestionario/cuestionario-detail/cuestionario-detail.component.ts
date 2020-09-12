@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import { SharedService } from '@shared_service/shared';
 import { CuestionarioService }  from '@cuestionario_service/CuestionarioService';
 import { Repositorio } from '@models/repositorio';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,10 +19,13 @@ export class CuestionarioDetailComponent implements OnInit {
   cuestionario: Repositorio;
 
   constructor(
+    sharedService: SharedService,
     private activatedRoute: ActivatedRoute, 
     private service: CuestionarioService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+    sharedService.changeTitle('Cuestionario');
+   }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {

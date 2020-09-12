@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '@shared_service/shared';
 import { CuestionarioService }  from '@cuestionario_service/CuestionarioService';
 import { PruebaService } from '@prueba_service/PruebaService';
 import { Repositorio } from '@models/repositorio';
@@ -27,11 +28,14 @@ export class PruebaDetailComponent implements OnInit {
   conAsignacion: boolean;
 
   constructor(
+    sharedService: SharedService,
     private activatedRoute: ActivatedRoute, 
     private serviceCuestionario: CuestionarioService,
     private servicePrueba: PruebaService,
     private snackBar: MatSnackBar
-  ) { }
+  ) { 
+    sharedService.changeTitle('Prueba');
+  }
 
   ngOnInit(): void {
     let idCuestionario = this.activatedRoute.snapshot.queryParamMap.get('cuestionario');

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '@shared_service/shared';
 import { CuestionarioService }  from '@cuestionario_service/CuestionarioService';
 import { Archivo } from '@models/file';
 
@@ -21,9 +22,12 @@ export class CuestionarioExplorerComponent implements OnInit {
   extras: any;
 
   constructor(
+    sharedService: SharedService,
     private activedRoute: ActivatedRoute,
     private service: CuestionarioService
-  ) { }
+  ) { 
+    sharedService.changeTitle('Explorador de Cuestionarios');
+  }
 
   ngOnInit(): void {
     this.archivos$ = this.activedRoute.paramMap.pipe(

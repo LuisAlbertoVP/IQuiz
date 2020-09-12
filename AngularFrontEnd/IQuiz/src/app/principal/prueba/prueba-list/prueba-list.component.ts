@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SharedService } from '@shared_service/shared';
 import { PruebaService } from '@prueba_service/PruebaService';
 import { Repositorio } from '@models/repositorio';
 
@@ -18,9 +19,12 @@ export class PruebaListComponent implements OnInit {
   dataSource: MatTableDataSource<Repositorio>;
 
   constructor(
+    sharedService: SharedService,
     private router: Router,
     private http: PruebaService
-  ) { }
+  ) { 
+    sharedService.changeTitle('Pruebas');
+  }
 
   ngOnInit(): void {
     this.http.getPruebas().subscribe(pruebas => {

@@ -6,6 +6,7 @@
     "types": [],
     "paths": {
       "@models/*": [ "src/app/models/*" ],
+      "@shared_service/*": ["src/app/principal/shared/services/shared.service.ts"], 
       "@auth_service/*": ["src/app/auth/auth.service.ts"],
       "@cuestionario_service/*": [ "src/app/principal/cuestionario/cuestionario.service.ts" ],
       "@prueba_service/*": [ "src/app/principal/prueba/prueba.service.ts" ],
