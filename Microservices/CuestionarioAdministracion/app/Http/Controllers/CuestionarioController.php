@@ -92,6 +92,13 @@ class CuestionarioController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
+    public function updateNombre(Request $request, $id) {
+        $json = $request->getContent();
+        $cuestionario = json_decode($json, true);
+        Cuestionario::where('id', $id)->update(['nombre' => $cuestionario['nombre']]);
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function addCuestionariosCompartidos(Request $request){
         $json = $request->getContent();
         $asignacion = json_decode($json, true);

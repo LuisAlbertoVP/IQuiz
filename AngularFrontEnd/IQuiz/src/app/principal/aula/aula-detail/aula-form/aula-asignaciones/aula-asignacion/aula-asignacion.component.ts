@@ -68,6 +68,8 @@ export class AulaAsignacionComponent implements OnInit {
     return this.form.get('cuestionarios') as FormArray;
   }
 
+  private errorMessage = (message: string) => this.snackBar.open(message, 'Error', { duration: 2000 });
+
   hasChild = (_: number, node: Archivo) => node.esCarpeta;
 
   addCuestionario(archivo: Archivo) {
@@ -76,7 +78,7 @@ export class AulaAsignacionComponent implements OnInit {
     if(result.length == 0) {
       this.cuestionarios.push(this.fb.group({ id: uuid(), nombre: archivo.nombre, clave: uuid(), cuestionario_id: archivo.id }));
     } else {
-      this.snackBar.open('Cuestionario ya agregado', 'Error', { duration: 2000 });
+      this.errorMessage('Cuestionario ya agregado');
     }
   }
 
@@ -88,7 +90,7 @@ export class AulaAsignacionComponent implements OnInit {
         if(response?.status == 200) {
           this.removeAsignacionRequest.emit(asignacion.id);
         } else {
-          this.snackBar.open('No se ha desactivado la asignación','Error', { duration: 2000 });
+          this.errorMessage('No se ha desactivado la asignación');
         }
       });
     } else {
@@ -106,16 +108,16 @@ export class AulaAsignacionComponent implements OnInit {
             if(response?.status == 200) {
               this.snackBar.open('Asignacion actualizada', 'Ok', { duration: 2000, panelClass: ['success'] });
             } else {
-              this.snackBar.open('Ha ocurrido algunos errores', 'Error', { duration: 2000 });
+              this.errorMessage('Ha ocurrido algunos errores');
             }
           });
         } else {
-          this.snackBar.open('No se han guardado los cambios', 'Error', { duration: 2000 });
+          this.errorMessage('No se han guardado los cambios');
         }
       });
     } else {
       this.form.markAllAsTouched();
-      this.snackBar.open('Algunos campos tienen errores', 'Error', { duration: 2000 });
+      this.errorMessage('Algunos campos tienen errores');
     }
   }
 }

@@ -38,3 +38,5 @@ $router->post('asignacion-administracion/cursos/asignaciones/{id}/disabled', 'As
 $router->post('asignacion-administracion/cursos/usuarios', 'AsignacionController@addUserCurso');
 
 $router->post('asignacion-administracion/cursos/pruebas', 'AsignacionController@addPruebaCurso');
+
+$router->post('asignacion-administracion/cuestionarios/{id}/nombre', 'AsignacionController@updateNombre');

@@ -17,7 +17,7 @@ class CorsMiddleware
     {
         return $next($request)
             ->header('Access-Control-Allow-Origin', 'http://192.168.1.13:80')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Methods', 'GET, POST')
             ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');
     }
 }

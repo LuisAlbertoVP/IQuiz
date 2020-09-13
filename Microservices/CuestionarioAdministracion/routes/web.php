@@ -23,6 +23,8 @@ $router->post('cuestionario-administracion/cuestionarios/clipboard', 'Cuestionar
 
 $router->post('cuestionario-administracion/cuestionarios', 'CuestionarioController@addCuestionario');
 
+$router->post('cuestionario-administracion/cuestionarios/{id}/nombre', 'CuestionarioController@updateNombre');
+
 $router->post('cuestionario-administracion/cuestionarios/compartido', 'CuestionarioController@addCuestionariosCompartidos');
 
 $router->post('cuestionario-administracion/cuestionarios/compartido/{id}', 'CuestionarioController@getCuestionarioCompartido');

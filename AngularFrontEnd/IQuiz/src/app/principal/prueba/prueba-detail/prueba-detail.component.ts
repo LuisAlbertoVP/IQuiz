@@ -48,7 +48,7 @@ export class PruebaDetailComponent implements OnInit {
           this.cuestionario = response.body;
           this.conAsignacion = true;
         } else {
-          this.snackBar.open('No se pudo elaborar la prueba', 'Error', { duration: 2000 });
+          this.snackBar.open('Prueba no disponible', 'Error', { duration: 2000 });
         }
       });    
     } else {
@@ -63,7 +63,7 @@ export class PruebaDetailComponent implements OnInit {
                 this.cuestionario = cuestionario;
                 this.conAsignacion = false;
               } else {
-                this.snackBar.open('No se pudo elaborar la prueba', 'Error', { duration: 2000 });
+                this.snackBar.open('Prueba no disponible', 'Error', { duration: 2000 });
               }
             });
           }

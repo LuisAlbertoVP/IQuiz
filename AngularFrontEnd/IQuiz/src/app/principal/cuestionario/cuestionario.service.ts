@@ -63,6 +63,13 @@ export class CuestionarioService {
   addCuestionario = (cuestionario: Repositorio) => this.http.post(this.apiCuestionario, cuestionario, httpOptions)
       .pipe(catchError(this.handleError('addCuestionario', cuestionario)));
 
+  nombreCuestionario = (id: string, archivo: Archivo) => this.http.post(`${this.apiCuestionario}/${id}/nombre`, archivo, httpOptions)
+      .pipe(catchError(this.handleError('nombreCuestionario', archivo)));
+
+  nombreCuestionarioAsignacion = (id: string, archivo: Archivo) => 
+      this.http.post(`http://192.168.1.16:8003/asignacion-administracion/cuestionarios/${id}/nombre`, archivo, httpOptions)
+      .pipe(catchError(this.handleError('nombreCuestionario', archivo)));
+
   addCuestionariosCompartido = (asignacion: Asignacion) => this.http.post(`${this.apiCuestionario}/compartido`, asignacion, httpOptions)
       .pipe(catchError(this.handleError('addCuestionariosCompartido', asignacion)));
 }

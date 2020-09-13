@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.service.login(user).subscribe(user => {
         if(user?.token) {
           this.service.saveToken(user);
-          this.router.navigate(['/principal/cuestionarios/home']);
+          this.router.navigate(['/principal']);
         } else {
           this.alert = true;
         }

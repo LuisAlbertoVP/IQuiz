@@ -10,6 +10,8 @@ class Cuestionario extends Model
 
     protected $casts = [ 'id' => 'string' ];
 
+    public $timestamps = false;
+
     public function prueba() {
         return $this->belongsToMany(Usuario::class, 'prueba')
             ->withPivot(['nota', 'fecha']);

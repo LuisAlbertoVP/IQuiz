@@ -142,12 +142,22 @@ export class CuestionarioListComponent implements OnInit, OnChanges {
             const archivo = this.selection.selected[0];
             archivo.nombre = result['nombre'];
             archivo.fechaModificacion = moment().format('YYYY-MM-DD h:mm:ss');
-            this.http.addFile(archivo).subscribe((response: HttpResponse<Object>) => {
-              if(response?.status == 200) {
+            forkJoin([
+              this.http.addFile(archivo),
+              this.http.nombreCuestionario(archivo.id, archivo),
+              this.http.nombreCuestionarioAsignacion(archivo.id, archivo)
+            ]).subscribe(responses => {
+              let ok = true;
+              for(let i = 0; i < responses.length; i++) {
+                if((responses[i] as HttpResponse<Object>).status != 200) {
+                  ok = false;
+                }
+              }
+              if(ok) {
                 this.generateDataSource(this.dataSource.data.sort((a,b) => a.nombre.localeCompare(b.nombre)));
-                this.selection.clear();  
+                this.selection.clear(); 
               } else {
-                this.errorMessage('No se han guardado los cambios');
+                this.errorMessage('Ha ocurrido algunos errores, vuelva a intentarlo');
               }
             });
           } else {

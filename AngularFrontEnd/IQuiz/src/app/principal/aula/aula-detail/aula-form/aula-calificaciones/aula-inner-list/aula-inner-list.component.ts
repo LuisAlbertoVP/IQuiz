@@ -12,5 +12,4 @@ export class AulaInnerListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

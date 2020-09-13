@@ -102,5 +102,12 @@ class AsignacionController extends Controller
         $json = $request->getContent();
         DB::select('CALL add_prueba_curso(?,?)', [$idUsuario, $json]);
         return response()->json(['status' => 'success'], 200); 
-    } 
+    }
+
+    public function updateNombre(Request $request, $id) {
+        $json = $request->getContent();
+        $cuestionario = json_decode($json, true);
+        Cuestionario::where('cuestionario_id', $id)->update(['nombre' => $cuestionario['nombre']]);
+        return response()->json(['status' => 'success'], 200);
+    }
 }
