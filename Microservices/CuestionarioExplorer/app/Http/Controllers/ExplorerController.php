@@ -31,7 +31,7 @@ class ExplorerController extends Controller
         $result = preg_split('/,/', $result[0]["path"]);
         for($i = 0; $i < sizeof($result); $i++){
             if($i == 0) {
-                $result[$i] = array('id' => $result[$i], 'nombre' => 'Home');
+                $result[$i] = array('id' => $result[$i], 'nombre' => 'Inicio');
             } else {
                 $node = preg_split('/:/', $result[$i]);
                 $result[$i] = array('id' => $node[0], 'nombre' => $node[1]);

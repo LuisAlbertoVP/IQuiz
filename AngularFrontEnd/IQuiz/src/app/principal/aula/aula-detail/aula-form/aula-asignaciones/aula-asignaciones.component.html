@@ -5,7 +5,7 @@
 
   <div *ngIf="archivos" class="row mt-1 mr-2 ml-2">
     <div *ngFor="let asignacion of asignaciones" class="container mt-2 mb-2 p-5 shadow3 bg-white">
-      <app-aula-asignacion [asignacion]="asignacion" [archivos]="archivos"></app-aula-asignacion>
+      <app-aula-asignacion [asignacion]="asignacion" [archivos]="archivos" (removeAsignacionRequest)="removeAsignacion($event)"></app-aula-asignacion>
     </div>
   </div>
 </div>  

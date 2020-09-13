@@ -52,6 +52,9 @@ export class AulaService {
   addCursoAsignacion = (id: string, asignacion: Asignacion) => this.http.post(`${this.apiAsignacion}/${id}/asignaciones`, asignacion, httpOptions)
       .pipe(catchError(this.handleError('addCursoAsignacion', asignacion)));
 
+  disabledCursoAsignacion = (id: string) => this.http.post(`${this.apiAsignacion}/asignaciones/${id}/disabled`, id, httpOptions)
+      .pipe(catchError(this.handleError('disabledCursoAsignacion', id)));
+
   getCursoPruebas = (id: string): Observable<Asignacion[]> => this.http.get<Asignacion[]>(`${this.apiAsignacion}/${id}/pruebas`)
       .pipe(catchError(this.handleError('getCursoPruebas', [])));
 

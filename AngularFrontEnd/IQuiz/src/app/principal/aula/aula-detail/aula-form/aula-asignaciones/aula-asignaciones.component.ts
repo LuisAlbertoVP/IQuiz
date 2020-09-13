@@ -40,8 +40,20 @@ export class AulaAsignacionesComponent implements OnInit {
     return tree;
   }
 
+  removeAsignacion(id: string) {
+    if(id == '-1') {
+      this.asignaciones.shift();
+    } else {
+      for(let i = 0; i < this.asignaciones.length; i++) {
+        if(this.asignaciones[i].id == id) {
+          this.asignaciones.splice(i, 1);
+        }
+      }
+    }
+  }
+
   addAsignacion() {
-    const asignacion: Asignacion = { id: uuid(), tema: '', fecha: '', tiempo: '', cuestionarios: [] };
+    const asignacion: Asignacion = { id: uuid(), tema: '', fecha: '', tiempo: '', cuestionarios: [], estado: 0 };
     this.asignaciones.unshift(asignacion);
   }
 }

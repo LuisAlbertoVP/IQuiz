@@ -10,6 +10,8 @@ class Asignacion extends Model
 
     protected $casts = [ 'id' => 'string' ];
 
+    public $timestamps = false;
+
     public function getTiempoAttribute($value) {
         return json_decode($value);
     }

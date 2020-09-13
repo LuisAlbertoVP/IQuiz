@@ -1,5 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
   <div class="w-100 d-flex mt-3 mb-3">
+    <button mat-icon-button color="primary" (click)="updateEstado(asignacion); $event.preventDefault()">
+      <mat-icon>delete</mat-icon></button>
     <button mat-raised-button color="primary" class="ml-auto">Guardar</button>
   </div>
   <mat-form-field class="w-50">

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CuestionarioService } from '@cuestionario_service/*';
@@ -18,6 +18,7 @@ import * as moment from 'moment';
   styleUrls: ['./aula-asignacion.component.css']
 })
 export class AulaAsignacionComponent implements OnInit {
+  @Output() removeAsignacionRequest = new EventEmitter<string>();
   @Input() archivos: Archivo[]; 
   @Input() asignacion: Asignacion;
   treeControl = new NestedTreeControl<Archivo>(node => node.archivos);
@@ -80,6 +81,20 @@ export class AulaAsignacionComponent implements OnInit {
   }
 
   removeCuestionario = (i: number) => this.cuestionarios.removeAt(i);
+
+  updateEstado(asignacion: Asignacion) {
+    if(asignacion.estado == 1) {
+      this.aulaService.disabledCursoAsignacion(asignacion.id).subscribe((response: HttpResponse<Object>) => {
+        if(response?.status == 200) {
+          this.removeAsignacionRequest.emit(asignacion.id);
+        } else {
+          this.snackBar.open('No se ha desactivado la asignación','Error', { duration: 2000 });
+        }
+      });
+    } else {
+      this.removeAsignacionRequest.emit('-1');
+    }
+  }
 
   onSubmit() {
     if(this.form.valid) {

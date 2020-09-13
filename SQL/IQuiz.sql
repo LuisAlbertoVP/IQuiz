@@ -635,6 +635,7 @@ create table asignacion(
     fecha date not null,
     tiempo json not null,
     curso_id varchar(100) not null,
+    estado int not null,
     foreign key(curso_id) references curso(id)
 );
 
@@ -719,7 +720,7 @@ begin
     declare _tiempo json default json_extract(json, '$.tiempo');
     declare _cuestionarios json default json_extract(json, '$.cuestionarios');
     declare _length_cuestionario int default json_length(_cuestionarios);
-    insert into asignacion values(_id, _tema, _instrucciones, _fecha, _tiempo, in_curso_id) on duplicate key
+    insert into asignacion values(_id, _tema, _instrucciones, _fecha, _tiempo, in_curso_id, 1) on duplicate key
         update tema = _tema, instrucciones = _instrucciones, fecha = _fecha, tiempo = _tiempo;
     while _countcuestionario != _length_cuestionario do
         call add_asignacion_cuestionario(_id, json_extract(_cuestionarios, concat('$[', _countcuestionario, ']')));

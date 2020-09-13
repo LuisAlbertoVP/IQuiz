@@ -26,7 +26,7 @@ export class CuestionarioExplorerComponent implements OnInit {
     private activedRoute: ActivatedRoute,
     private service: CuestionarioService
   ) { 
-    sharedService.changeTitle('Explorador de Cuestionarios');
+    sharedService.changeTitle('Explorador de cuestionarios');
   }
 
   ngOnInit(): void {

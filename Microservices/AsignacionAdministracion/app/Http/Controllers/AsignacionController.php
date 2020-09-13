@@ -21,7 +21,11 @@ class AsignacionController extends Controller
     }
 
     public function getCurso($id) {
-        return Curso::where('id', $id)->first();
+        $curso = Curso::where('estado', 1)->where('id', $id)->first();
+        if($curso) {
+            return $curso;
+        }
+        return response()->json(['status' => 'not authorized'], 403);
     }
 
     public function getCursoUsuarios($id) {
@@ -35,7 +39,7 @@ class AsignacionController extends Controller
 
     public function getCursoAsignaciones($id) {
         return Asignacion::with(['cuestionarios'])
-            ->where('curso_id', $id)->get();
+            ->where('estado', 1)->where('curso_id', $id)->get();
     }
 
     public function getCuestionarioClave($id, $id2) {
@@ -67,7 +71,7 @@ class AsignacionController extends Controller
     public function enabledCurso($id) {
         Curso::where('id', $id)->update(['estado' => '1']);
         return response()->json(['status' => 'success'], 200);
-    } 
+    }
 
     public function addCursoAsignacion(Request $request, $id) {
         $json = $request->getContent();
@@ -81,6 +85,11 @@ class AsignacionController extends Controller
         DB::select('CALL add_asignacion(?,?)', [$id, $json]);
         return response()->json(['status' => 'success'], 200); 
     } 
+
+    public function disabledAsignacion($id) {
+        Asignacion::where('id', $id)->update(['estado' => '0']);
+        return response()->json(['status' => 'success'], 200);
+    }
 
     public function addUserCurso(Request $request) {
         $json = $request->getContent();

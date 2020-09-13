@@ -33,6 +33,8 @@ $router->post('asignacion-administracion/cursos/{id}/enabled', 'AsignacionContro
 
 $router->post('asignacion-administracion/cursos/{id}/asignaciones', 'AsignacionController@addCursoAsignacion');
 
+$router->post('asignacion-administracion/cursos/asignaciones/{id}/disabled', 'AsignacionController@disabledAsignacion');
+
 $router->post('asignacion-administracion/cursos/usuarios', 'AsignacionController@addUserCurso');
 
 $router->post('asignacion-administracion/cursos/pruebas', 'AsignacionController@addPruebaCurso');

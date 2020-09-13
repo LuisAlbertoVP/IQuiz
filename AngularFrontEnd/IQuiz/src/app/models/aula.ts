@@ -36,7 +36,8 @@ export interface Asignacion {
   instrucciones?: string;
   fecha: string;
   tiempo: string | Tiempo;
-  cuestionarios: Cuestionario[]
+  cuestionarios: Cuestionario[];
+  estado?: number;
 }
 
 export interface Usuario {

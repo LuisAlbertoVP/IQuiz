@@ -26,7 +26,7 @@ export class AulaExplorerComponent implements OnInit {
     private activedRoute: ActivatedRoute,
     private service: AulaService
   ) { 
-    sharedService.changeTitle('Explorador de Cursos');
+    sharedService.changeTitle('Explorador de cursos');
   }
 
   ngOnInit(): void {
