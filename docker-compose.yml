@@ -7,8 +7,8 @@ services:
       - ./SQL/IQuiz.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     networks:
       net1:
         ipv4_address: 192.168.1.5
