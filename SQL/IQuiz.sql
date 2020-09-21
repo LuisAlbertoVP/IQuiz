@@ -113,6 +113,19 @@ end //
 delimiter ;
 
 delimiter //
+create procedure add_cuenta(json JSON)
+begin
+    declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
+    declare _cedula varchar(10) default json_unquote(json_extract(json, '$.cedula'));
+    declare _nombres varchar(50) default json_unquote(json_extract(json, '$.nombres'));
+    declare _correo_personal varchar(320) default json_unquote(json_extract(json, '$.correoPersonal'));
+    declare _clave varchar(200) default json_unquote(json_extract(json, '$.clave'));
+    insert into usuario values(_id, _cedula, _nombres, _correo_personal, _correo_personal, _clave, 0, _nombres, now(), _nombres, now());
+    insert into rol_usuario values(_id, 3);
+end //
+delimiter ;
+
+delimiter //
 create procedure add_usuario(json JSON)
 begin
     declare _countcurso int default 0;

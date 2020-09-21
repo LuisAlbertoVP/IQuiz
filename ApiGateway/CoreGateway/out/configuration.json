@@ -1,0 +1,46 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/cuestionario-administracion/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.1.20",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/cuestionario-administracion/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "AddQueriesToRequest": {
+        "id": "Claims[Id] > value > |"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/prueba-administracion/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.1.21",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/prueba-administracion/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "AddQueriesToRequest": {
+        "id": "Claims[Id] > value > |"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration"
+  }
+}

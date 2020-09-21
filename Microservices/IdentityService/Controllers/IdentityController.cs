@@ -22,6 +22,15 @@ namespace IdentityService.Controllers
             _userDao = userDao;
         }
 
+        [Route("crear")]
+        [HttpPost]
+        public IActionResult AddCuenta([FromBody] User user) {
+            var result = _userDao.AddCuenta(user);
+            if(result) 
+                return Ok();
+            return BadRequest();
+        }
+
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody] User user) {
