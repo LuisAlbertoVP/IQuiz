@@ -15,9 +15,9 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-  apiIdentity: string = 'http://192.168.1.10:8000/identity/usuarios';
-  apiExplorer: string = 'http://192.168.1.12:8001';
-  apiAsignacion: string = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
+  apiIdentity: string = 'http://localhost:8000/identity/usuarios';
+  apiExplorer: string = 'http://localhost:8001';
+  apiAsignacion: string = 'http://localhost:8003/asignacion-administracion/cursos';
   private handleError: HandleError;
 
   constructor(

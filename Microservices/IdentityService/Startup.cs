@@ -22,11 +22,11 @@ namespace IdentityService
 
         public void ConfigureServices(IServiceCollection services) {
             services.Configure<ForwardedHeadersOptions>(options => {
-                options.KnownProxies.Add(IPAddress.Parse("192.168.1.10"));
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
             services.AddCors(options => {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+                options.AddPolicy("CorsPolicy", builder => 
+                    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
             });
             services.AddAuthentication().AddJwtBearer("Autenticado", config => {
                 config.SaveToken = true;
@@ -51,9 +51,7 @@ namespace IdentityService
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseForwardedHeaders(new ForwardedHeadersOptions {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            app.UseForwardedHeaders();
             app.UseCors("CorsPolicy");
             app.UseRouting();
             app.UseAuthentication();

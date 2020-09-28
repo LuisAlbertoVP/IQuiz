@@ -21,12 +21,9 @@ namespace CoreGateway
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.Configure<ForwardedHeadersOptions>(options => {
-                options.KnownProxies.Add(IPAddress.Parse("192.168.1.14"));
-            });
             services.AddCors(options => {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("http://192.168.1.6").AllowAnyHeader().AllowAnyMethod());
+                options.AddPolicy("CorsPolicy", builder => 
+                    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
             });
             services.AddAuthentication().AddJwtBearer("IdentityApiKey", config => {
                 config.TokenValidationParameters = new TokenValidationParameters {

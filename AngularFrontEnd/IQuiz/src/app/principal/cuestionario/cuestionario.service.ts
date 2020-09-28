@@ -15,8 +15,8 @@ const httpOptions = {
 
 @Injectable({ providedIn: 'root' })
 export class CuestionarioService {
-  apiExplorer: string = 'http://192.168.1.12:8001/explorer-cuestionario/cuestionarios';
-  apiCuestionario: string = 'http://192.168.1.14:8002/cuestionario-administracion/cuestionarios';
+  apiExplorer: string = 'http://localhost:8001/explorer-cuestionario/cuestionarios';
+  apiCuestionario: string = 'http://localhost:8002/cuestionario-administracion/cuestionarios';
   private handleError: HandleError;
 
   constructor(
@@ -67,7 +67,7 @@ export class CuestionarioService {
       .pipe(catchError(this.handleError('nombreCuestionario', archivo)));
 
   nombreCuestionarioAsignacion = (id: string, archivo: Archivo) => 
-      this.http.post(`http://192.168.1.16:8003/asignacion-administracion/cuestionarios/${id}/nombre`, archivo, httpOptions)
+      this.http.post(`http://localhost:8003/asignacion-administracion/cuestionarios/${id}/nombre`, archivo, httpOptions)
       .pipe(catchError(this.handleError('nombreCuestionario', archivo)));
 
   addCuestionariosCompartido = (asignacion: Asignacion) => this.http.post(`${this.apiCuestionario}/compartido`, asignacion, httpOptions)

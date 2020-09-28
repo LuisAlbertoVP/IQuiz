@@ -9,125 +9,71 @@ services:
       MYSQL_ROOT_PASSWORD: root
     expose:
       - "3306"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.5
   nginx_identity:
     image: nginx
     ports:
       - "8000:8000"
     volumes:
       - ./Nginx/Identity.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      net1:
-        ipv4_address: 192.168.1.10
   nginx_explorer:
     image: nginx
     ports:
       - "8001:8001"
     volumes:
       - ./Nginx/GwExplorer.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      net1:
-        ipv4_address: 192.168.1.12
   nginx_core:
     image: nginx
     ports:
       - "8002:8002"
     volumes:
       - ./Nginx/GwCore.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      net1:
-        ipv4_address: 192.168.1.14
   nginx_aula:
     image: nginx
     ports:
       - "8003:8003"
     volumes:
       - ./Nginx/GwAula.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      net1:
-        ipv4_address: 192.168.1.16
   identity:
     build: ./Microservices/IdentityService/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.11
   gw_explorer:
     build: ./ApiGateway/ExplorerGateway/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.13
   gw_core:
     build: ./ApiGateway/CoreGateway/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.15
   gw_aula:
     build: ./ApiGateway/AulaGateway/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.17
   cuestionario_explorer:
     build: ./Microservices/CuestionarioExplorer/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.18
   aula_explorer:
     build: ./Microservices/AulaExplorer/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.19
   cuestionario_administracion:
     build: ./Microservices/CuestionarioAdministracion/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.20
   prueba_administracion:
     build: ./Microservices/PruebaAdministracion/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.21
   asignacion_administracion:
     build: ./Microservices/AsignacionAdministracion/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.22
   post_administracion:
     build: ./Microservices/PostAdministracion/
     expose:
       - "80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.23
   iquiz:
     build: ./AngularFrontEnd/IQuiz/
     ports:
       - "80:80"
-    networks:
-      net1:
-        ipv4_address: 192.168.1.6
-networks:
-  net1:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 192.168.1.0/24

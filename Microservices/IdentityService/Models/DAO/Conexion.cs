@@ -10,7 +10,7 @@ namespace IdentityService.Models.DAO
         private readonly MySqlConnection _cnn;
 
         private Conexion() {
-            var url = "server=192.168.1.5;port=3306;database=dbIdentity;user=lavp;password=tesis2020";
+            var url = "server=mariadb;port=3306;database=dbIdentity;user=lavp;password=tesis2020";
             _cnn = new MySqlConnection(url);
             try {
                 _cnn.Open();

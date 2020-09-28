@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  apiIdentity: string = 'http://192.168.1.10:8000/identity';
+  apiIdentity: string = 'http://localhost:8000/identity';
   private handleError: HandleError;
 
   constructor(

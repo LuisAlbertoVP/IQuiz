@@ -17,8 +17,7 @@ namespace ExplorerGateway
             var builder = WebHost.CreateDefaultBuilder(args);
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => ic.AddJsonFile("configuration.json"))
-                .UseStartup<Startup>()
-                .UseUrls("http://192.168.1.13");
+                .UseStartup<Startup>();
             return builder.Build();
         }
     }

@@ -61633,9 +61633,9 @@ const httpOptions = {
 class AdminService {
     constructor(http, httpErrorHandler) {
         this.http = http;
-        this.apiIdentity = 'http://192.168.1.10:8000/identity/usuarios';
-        this.apiExplorer = 'http://192.168.1.12:8001';
-        this.apiAsignacion = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
+        this.apiIdentity = 'http://localhost:8000/identity/usuarios';
+        this.apiExplorer = 'http://localhost:8001';
+        this.apiAsignacion = 'http://localhost:8003/asignacion-administracion/cursos';
         this.addUser = (user) => this.http.post(this.apiIdentity, user, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addUser', user)));
         this.addCurso = (curso) => this.http.post(this.apiAsignacion, curso, httpOptions)
@@ -64922,9 +64922,9 @@ const httpOptions = {
 class AulaService {
     constructor(http, httpErrorHandler) {
         this.http = http;
-        this.apiExplorer = 'http://192.168.1.12:8001/explorer-aula/aulas';
-        this.apiAsignacion = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
-        this.apiPost = 'http://192.168.1.16:8003/post-administracion/cursos';
+        this.apiExplorer = 'http://localhost:8001/explorer-aula/aulas';
+        this.apiAsignacion = 'http://localhost:8003/asignacion-administracion/cursos';
+        this.apiPost = 'http://localhost:8003/post-administracion/cursos';
         this.getFileParents = (id) => this.http.get(`${this.apiExplorer}/${id}/parents`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('getFileParents', [])));
         this.getFileChildren = (id) => this.http.get(`${this.apiExplorer}/${id}/children`)
@@ -64953,7 +64953,7 @@ class AulaService {
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addCursoPost', post)));
         this.getCursoPosts = (id) => this.http.get(`${this.apiPost}/${id}/posts`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('getCursoPosts', [])));
-        this.addPostComentario = (id, post) => this.http.post(`http://192.168.1.16:8003/post-administracion/posts/${id}/comentarios`, post, httpOptions)
+        this.addPostComentario = (id, post) => this.http.post(`http://localhost:8003/post-administracion/posts/${id}/comentarios`, post, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addCursoPost', post)));
         this.handleError = httpErrorHandler.createHandleError('AulaService');
     }
@@ -67366,8 +67366,8 @@ const httpOptions = {
 class CuestionarioService {
     constructor(http, httpErrorHandler) {
         this.http = http;
-        this.apiExplorer = 'http://192.168.1.12:8001/explorer-cuestionario/cuestionarios';
-        this.apiCuestionario = 'http://192.168.1.14:8002/cuestionario-administracion/cuestionarios';
+        this.apiExplorer = 'http://localhost:8001/explorer-cuestionario/cuestionarios';
+        this.apiCuestionario = 'http://localhost:8002/cuestionario-administracion/cuestionarios';
         this.getFiles = () => this.http.get(this.apiExplorer)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('getFiles', [])));
         this.getFileParents = (id) => this.http.get(`${this.apiExplorer}/${id}/parents`)
@@ -67394,7 +67394,7 @@ class CuestionarioService {
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addCuestionario', cuestionario)));
         this.nombreCuestionario = (id, archivo) => this.http.post(`${this.apiCuestionario}/${id}/nombre`, archivo, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('nombreCuestionario', archivo)));
-        this.nombreCuestionarioAsignacion = (id, archivo) => this.http.post(`http://192.168.1.16:8003/asignacion-administracion/cuestionarios/${id}/nombre`, archivo, httpOptions)
+        this.nombreCuestionarioAsignacion = (id, archivo) => this.http.post(`http://localhost:8003/asignacion-administracion/cuestionarios/${id}/nombre`, archivo, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('nombreCuestionario', archivo)));
         this.addCuestionariosCompartido = (asignacion) => this.http.post(`${this.apiCuestionario}/compartido`, asignacion, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addCuestionariosCompartido', asignacion)));
@@ -69824,8 +69824,8 @@ const httpOptions = {
 class PruebaService {
     constructor(http, httpErrorHandler) {
         this.http = http;
-        this.apiPrueba = 'http://192.168.1.14:8002/prueba-administracion/pruebas';
-        this.apiAsignacion = 'http://192.168.1.16:8003/asignacion-administracion/cursos';
+        this.apiPrueba = 'http://localhost:8002/prueba-administracion/pruebas';
+        this.apiAsignacion = 'http://localhost:8003/asignacion-administracion/cursos';
         this.addPrueba = (prueba) => this.http.post(this.apiPrueba, prueba, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addPrueba', prueba)));
         this.addPruebaCurso = (prueba) => this.http.post(`${this.apiAsignacion}/pruebas`, prueba, httpOptions)

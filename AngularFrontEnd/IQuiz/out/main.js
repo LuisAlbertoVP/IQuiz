@@ -356,7 +356,7 @@ const httpOptions = {
 class AuthService {
     constructor(http, httpErrorHandler) {
         this.http = http;
-        this.apiIdentity = 'http://192.168.1.10:8000/identity';
+        this.apiIdentity = 'http://localhost:8000/identity';
         this.addUser = (user) => this.http.post(`${this.apiIdentity}/crear`, user, httpOptions)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('addUser', user)));
         this.login = (user) => this.http.post(`${this.apiIdentity}/login`, user, httpOptions)
@@ -848,7 +848,7 @@ _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["platformBrowser"]().boot
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/luis/Documents/IQuiz/AngularFrontEnd/IQuiz/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Users\luisv\Documents\IQuiz\AngularFrontEnd\IQuiz\src\main.ts */"./src/main.ts");
 
 
 /***/ }),
