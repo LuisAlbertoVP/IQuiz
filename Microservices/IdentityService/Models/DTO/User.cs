@@ -19,6 +19,8 @@ namespace IdentityService.Models.DTO
 
         public string Clave { get; set; }
 
+        public string NuevaClave { get; set; }
+
         public int Estado { get; set; }
 
         public string UsuarioIngreso { get; set; }

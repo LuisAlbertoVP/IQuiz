@@ -1,0 +1,122 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="col-12 container-fluid mb-5">
+  <div class="row">
+    <div class="container accordion">
+      <div class="card shadow3 bradius">
+        <div class="card-header">
+          <h2 class="mb-0">
+            <button (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+              class="btn-style btn-block w-100" type="button" aria-controls="collapseOne">
+              <div class="d-flex">
+                <button mat-icon-button color="accent" type="button">
+                  <mat-icon>{{ isCollapsed ? 'arrow_drop_down' : 'arrow_drop_up' }}</mat-icon>
+                </button>
+                <h5 class="mt-2 blue">{{ cuestionario.nombre }}</h5>
+                <button mat-raised-button color="primary" (click)="$event.stopPropagation()" class="ml-auto">Guardar</button>
+              </div>
+            </button>
+          </h2>
+        </div>
+        <div id="collapseOne" [ngbCollapse]="isCollapsed">
+          <div class="card-body">
+            <div class="d-flex justify-content-center">
+              <label class="mt-1 mr-2">Calificación</label>
+              <mat-form-field class="text-center">
+                <input formControlName="puntaje" matInput type="number" />
+                <mat-error *ngIf="form.get('puntaje').hasError('required')">Calificación es requerida</mat-error>
+                <mat-error *ngIf="form.get('puntaje').hasError('min')">Calificación debe ser mayor a 1</mat-error>
+              </mat-form-field>
+            </div>
+            <mat-form-field class="w-100">
+              <mat-label>Descripción</mat-label>
+              <textarea formControlName="descripcion" matInput></textarea>
+            </mat-form-field>
+            <div class="d-flex">
+              <div formGroupName="tiempo" class="ml-auto">
+                <label class="mt-2 mr-2">Tiempo límite</label>
+                <mat-form-field class="w50 mr-2">
+                  <input formControlName="hour" matInput type="number" />
+                  <span matSuffix>H</span>
+                </mat-form-field>
+                <mat-form-field class="w50">
+                  <input formControlName="minute" matInput type="number" />
+                  <span matSuffix>M</span>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="container d-flex">
+      <button mat-mini-fab color="primary" (click)="ordenarPreguntas(longContent); $event.preventDefault();">
+        <mat-icon>sort</mat-icon>
+      </button>
+      <label class="ml-auto mt-1 mr-2">Total de puntos {{ totalNota }}</label>
+    </div>
+  </div>
+
+  <div class="row col-12 justify-content-center mt-2">
+    <ngb-pagination [collectionSize]="pages" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+  </div>
+
+  <div class="row mt-2">
+    <div formArrayName="preguntas" class="container bg-light preguntas position-relative" style="padding-bottom: 85px;">
+      <button mat-mini-fab color="primary" (click)="addPregunta(); $event.preventDefault();" style="position: absolute; right: 30px; z-index: 999;">
+        <mat-icon>add</mat-icon>
+      </button>
+      <ng-container *ngFor="let pregunta of preguntas.controls; let i=index">
+        <app-cuestionario-pregunta [form]="pregunta" [page]="page" (refreshPreguntaRequest)="refreshPregunta($event)" 
+          (removePreguntaRequest)="removePregunta($event)" (updateTotalNotaRequest)="updateTotalNota()">
+        </app-cuestionario-pregunta>
+      </ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template #longContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Ordenar</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body w-100">
+    <div class="d-flex mb-1">
+      <button mat-icon-button color="primary" (click)="getClipboard()">
+        <mat-icon>assignment_turned_in</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="addClipboard()" class="ml-auto">
+        <mat-icon>note_add</mat-icon>
+      </button>
+    </div>
+    <style>
+      ::ng-deep .mat-checkbox-layout {
+        white-space: normal !important;
+      }
+      ::ng-deep .mat-checkbox-inner-container {
+        margin-top: 3px !important;
+      }
+    </style>
+    <div *ngFor="let pregunta of preguntas.controls; let i=index" class="shadow3 mt-3 mb-3">
+      <div class="d-flex">
+        <button mat-icon-button color="accent" (click)="bajarPregunta(i, pregunta.value)" class="ml-auto">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="subirPregunta(i, pregunta.value)">
+          <mat-icon>arrow_upward</mat-icon>
+        </button>
+      </div>
+      <div class="ml-2">
+        <mat-checkbox (change)="addChecked($event.checked, i)" class="blue">
+          <span class="accent">{{ pregunta.get('orden').value + '.- ' }}</span>{{ pregunta.get('descripcion').value }}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>

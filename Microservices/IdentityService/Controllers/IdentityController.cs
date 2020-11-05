@@ -31,11 +31,26 @@ namespace IdentityService.Controllers
             return BadRequest();
         }
 
+        [Route("update")]
+        [HttpPost]
+        public IActionResult UpdatePassword([FromBody] User user) {
+            var result = _userDao.UpdatePassword(user);
+            if(result) 
+                return Ok();
+            return BadRequest();
+        }
+
         [Route("login")]
         [HttpPost]
         public IActionResult Login([FromBody] User user) {
             user = _userDao.Login(user);
-            return user.Estado == 1 ? CreateToken(user) : Unauthorized();
+            if(user.Estado == 1) {
+                return CreateToken(user);
+            } else if(user.Estado == -1) {
+                return Unauthorized("Las credenciales son incorrectas");
+            } else {
+                return Unauthorized("La cuenta ha sido desactivada");
+            }
         }
 
         public IActionResult CreateToken(User user) {

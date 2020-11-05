@@ -56,7 +56,6 @@ insert into rol values(3, 'Estudiante');
 insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', '0941500720', 'Luis Alberto Velastegui Pino', 'luis.velasteguipi@ug.edu.ec', 'luisv-1@hotmail.com', 
     'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, 'Luis Alberto Velastegui Pino', now(), 'Luis Alberto Velastegui Pino', now());
 insert into rol_usuario(usuario_id, rol_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 1);
-insert into curso_usuario(usuario_id, curso_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
 /* End Inserts*/
 
 delimiter //
@@ -122,6 +121,16 @@ begin
     declare _clave varchar(200) default json_unquote(json_extract(json, '$.clave'));
     insert into usuario values(_id, _cedula, _nombres, _correo_personal, _correo_personal, _clave, 0, _nombres, now(), _nombres, now());
     insert into rol_usuario values(_id, 3);
+end //
+delimiter ;
+
+delimiter //
+create procedure update_password(json JSON)
+begin
+    declare _id varchar(100) default json_unquote(json_extract(json, '$.id'));
+    declare _clave varchar(200) default json_unquote(json_extract(json, '$.clave'));
+    declare _nueva_clave varchar(200) default json_unquote(json_extract(json, '$.nuevaClave'));
+    update usuario set clave = _nueva_clave where id = _id and clave = _clave;
 end //
 delimiter ;
 
@@ -193,7 +202,7 @@ create procedure parents_archivo(in_usuario_id varchar(100), in_search varchar(1
 begin
     with recursive file_parents (id, nombre, path) as
     (
-    select id, nombre, cast(id as char(200)) from archivo where parent_id is null and usuario_id = in_usuario_id
+    select id, nombre, cast(id as char(400)) from archivo where parent_id is null and usuario_id = in_usuario_id
     union all
     select f.id, f.nombre, concat(fp.path, ',', f.id, ':', f.nombre) from file_parents as fp join archivo as f on fp.id = f.parent_id
     )
@@ -424,6 +433,7 @@ create table prueba(
     descripcion varchar(200) null,
     tiempo json not null,
     fecha datetime not null,
+    materia varchar(50) not null,
     usuario_id varchar(100) not null
 );
 
@@ -502,9 +512,10 @@ begin
     declare _nombre varchar(50) default json_unquote(json_extract(json, '$.nombre'));
     declare _descripcion varchar(200) default json_unquote(json_extract(json, '$.descripcion'));
     declare _tiempo json default json_extract(json, '$.tiempo');
+    declare _materia varchar(50) default json_unquote(json_extract(json, '$.materia'));
     declare _pregunta json default json_extract(json, '$.preguntas');
     declare _length_pregunta int default json_length(_pregunta);
-    insert into prueba values(_id, _puntaje, _nota, _nombre, _descripcion, _tiempo, now(), in_usuario_id);
+    insert into prueba values(_id, _puntaje, _nota, _nombre, _descripcion, _tiempo, now(), _materia, in_usuario_id);
     while _countpregunta != _length_pregunta do
         call add_pregunta(_id, json_extract(_pregunta, concat('$[', _countpregunta, ']')));
         set _countpregunta = _countpregunta + 1;
@@ -536,7 +547,6 @@ create table archivo(
 
 /* Inserts */
 insert into archivo values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341',"root", true, now(), now(), NULL, 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', NULL);
-insert into archivo values('5374dd3a-c580-4ee2-944c-a1e85538cfc5',"Curso Prueba", false, now(), now(), 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
 /* End Inserts*/
 
 delimiter //
@@ -670,12 +680,6 @@ create table prueba(
     foreign key(usuario_id) references usuario(id),
     foreign key(cuestionario_id) references cuestionario(id)
 );
-
-/* Inserts */
-insert into curso values('f6663f21-16dd-4f1f-af5d-aa379c9848d5', 'Curso Prueba', 'Prueba', 1);
-insert into usuario values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'Luis Alberto Velastegui Pino','luis.velasteguipi@ug.edu.ec', '1');
-insert into curso_usuario(usuario_id, curso_id) values('e2ec4818-4af1-4f4e-b2bc-7d1adb2ec341', 'f6663f21-16dd-4f1f-af5d-aa379c9848d5');
-/* End Inserts*/
 
 delimiter //
 create procedure add_curso(json JSON)

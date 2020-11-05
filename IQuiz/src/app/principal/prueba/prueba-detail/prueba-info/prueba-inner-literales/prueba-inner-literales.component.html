@@ -1,0 +1,46 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>  
+        <th>No</th>
+        <th *ngIf="tipo != 6">Literal</th>
+        <th>Respuesta</th>
+        <th>Tu respuesta</th>
+        <th>Nota</th>
+        <th>Puntaje</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let literal of literales" class="text-center">
+        <td>{{ literal.abreviatura }}</td>
+        <td *ngIf="tipo != 6">{{ literal.descripcion }}</td>
+        <ng-container *ngIf="tipo == 0 || tipo == 1; else elseBlock">
+          <td>{{ transformNumber(literal.respuesta) }}</td>
+          <td>{{ transformNumber(literal.respuesta2) }}</td>
+        </ng-container>
+        <ng-template #elseBlock>
+          <ng-container *ngIf="tipo != 6; else elseBlock">
+            <td>{{ literal.respuesta }}</td>
+            <td>{{ literal.respuesta2 }}</td>
+          </ng-container>
+          <ng-template #elseBlock>
+            <td>
+              <span *ngFor="let entrada of literal.entradas" class="ml-1 mr-1">
+                <span *ngIf="entrada.esRespuesta; else elseBlock" class="text-danger">{{ entrada.entrada }}</span>
+                <ng-template #elseBlock>{{ entrada.entrada }}</ng-template>
+              </span>
+            </td>
+            <td>
+              <span *ngFor="let entrada of literal.entradas" class="ml-1 mr-1">
+                <span *ngIf="entrada.esRespuesta; else elseBlock" class="text-danger">{{ entrada.entrada2 }}</span>
+                <ng-template #elseBlock>{{ entrada.entrada }}</ng-template>
+              </span>
+            </td>
+          </ng-template>
+        </ng-template>
+        <td>{{ literal.nota }}</td>
+        <td>{{ literal.puntaje }}</td>
+      </tr>
+    </tbody>
+  </table>  
+</div>

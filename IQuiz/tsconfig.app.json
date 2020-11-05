@@ -1,0 +1,28 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": [],
+    "paths": {
+      "@models/*": [ "src/app/models/*" ],
+      "@shared_service/*": ["src/app/principal/shared/services/shared.service.ts"], 
+      "@auth_service/*": ["src/app/auth/auth.service.ts"],
+      "@cuestionario_service/*": [ "src/app/principal/cuestionario/cuestionario.service.ts" ],
+      "@prueba_service/*": [ "src/app/principal/prueba/prueba.service.ts" ],
+      "@aula_service/*": [ "src/app/principal/aula/aula.service.ts" ],
+      "@cuestionario_controls/*": [ "src/app/principal/cuestionario/cuestionario-control.service.ts" ],
+      "@prueba_controls/*": [ "src/app/principal/prueba/prueba-control.service.ts" ],
+      "@aula_controls/*": [ "src/app/principal/aula/aula-control.service.ts" ],
+      "@prueba_calificar/*": [ "src/app/principal/prueba/prueba-calificar.service.ts" ]
+
+    }
+  },
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ]
+}

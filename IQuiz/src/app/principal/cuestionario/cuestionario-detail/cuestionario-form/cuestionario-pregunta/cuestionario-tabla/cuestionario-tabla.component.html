@@ -1,0 +1,25 @@
+<div [formGroup]="form" class="row p-2">
+  <div class="col-12 d-flex mb-2">
+    <mat-form-field>
+      <mat-label>Filas</mat-label>
+      <input (change)="updateFilas($event.target.value)" [value]="filas.length" matInput type="number"/>
+    </mat-form-field>
+    <mat-form-field class="ml-auto">
+      <mat-label>Columnas</mat-label>
+      <input (change)="updateColumnas($event.target.value)" [value]="nColumnas" matInput type="number"/>
+    </mat-form-field>
+  </div>
+  <div formArrayName="filas" class="col-12 overflowx text-center">
+    <ng-container *ngFor="let fila of filas.controls; let i=index">
+      <div [formGroupName]="i">
+        <div formArrayName="columnas" class="d-inline">
+          <ng-container *ngFor="let columna of fila.get('columnas').controls; let j=index">
+            <div [formGroupName]="j" class="d-inline">
+              <input formControlName="palabra" type="text" class="w50" />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

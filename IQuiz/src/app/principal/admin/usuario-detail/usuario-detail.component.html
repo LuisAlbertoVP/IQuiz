@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="w-100 d-flex mt-3 mb-4">
+    <a mat-stroked-button color="primary" (click)="navigate('/principal/usuarios')">Regresar</a>
+    <a mat-stroked-button color="primary" (click)="navigate('/principal/usuario')" class="ml-auto">Nuevo</a>
+  </div>
+
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" class="container-fluid shadow3" autocomplete="off">
+    <div class="w-100 d-flex">
+      <button mat-raised-button color="primary" class="ml-auto">Guardar</button>
+    </div>
+    <div class="row">
+      <mat-form-field class="control">
+        <mat-label>Cedula</mat-label>
+        <input formControlName="cedula" matInput placeholder="Ingrese cedula" type="text" />
+        <mat-error *ngIf="user.get('cedula').hasError('required')">Cedula es requerida</mat-error>
+        <mat-error *ngIf="user.get('cedula').hasError('pattern')">Cedula debe tener 10 dígitos</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="control">
+        <mat-label>Nombres</mat-label>
+        <input formControlName="nombres" matInput placeholder="Ingrese nombres" type="text" />
+        <mat-error *ngIf="user.get('nombres').hasError('required')">Nombres son requeridos</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="control">
+        <mat-label>Correo Institucional</mat-label>
+        <input formControlName="correoInstitucional" matInput placeholder="Ingrese correo institucional" type="email" />
+        <mat-error *ngIf="user.get('correoInstitucional').hasError('required')">Correo Institucional es requerido</mat-error>
+        <mat-error *ngIf="user.get('correoInstitucional').hasError('pattern')">Ingrese una dirección de correo válida</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field class="control">
+        <mat-label>Correo Personal</mat-label>
+        <input formControlName="correoPersonal" matInput placeholder="Ingrese correo personal" type="email" />
+        <mat-error *ngIf="user.get('correoPersonal').hasError('pattern')">Ingrese una dirección de correo válida</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row" formGroupName="rol">
+      <mat-form-field class="control">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="id">
+          <mat-option [value]="'1'">Administrador</mat-option>
+          <mat-option [value]="'2'">Profesor</mat-option>
+          <mat-option [value]="'3'">Estudiante</mat-option>
+        </mat-select>
+        <mat-error *ngIf="user.get('rol').get('id').hasError('required')">Rol es requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="fill" class="control">
+        <mat-label>Curso</mat-label>
+        <mat-select formControlName="cursos" multiple="true">
+          <mat-option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="user.get('cursos').hasError('required')">Curso es requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row clave">
+      <mat-form-field class="control">
+        <mat-label>{{ id ? 'Nueva Contraseña' : 'Contraseña' }}</mat-label>
+        <input formControlName="clave" matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese contraseña" />
+        <button mat-icon-button matSuffix (click)="hide = !hide; $event.preventDefault()" >
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

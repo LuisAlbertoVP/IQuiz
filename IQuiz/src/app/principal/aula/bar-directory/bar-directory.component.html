@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <ng-container *ngFor="let node of nodes$ | async">
+      <li *ngIf="id == 'home' || node.id == id; else elseBlock" class="breadcrumb-item active" aria-current="page">{{ node.nombre }}</li>
+      <ng-template #elseBlock>
+        <li class="breadcrumb-item">
+          <a *ngIf="node.nombre != 'Inicio'; else elseBlock" routerLink="/principal/aulas/{{ node.id }}" [queryParams]="extras" class="blue">{{ node.nombre }}</a>
+          <ng-template #elseBlock>
+            <a routerLink="/principal/aulas/home" [queryParams]="extras" class="blue">{{ node.nombre }}</a>
+          </ng-template>
+        </li>
+      </ng-template>
+    </ng-container>
+  </ol>
+</nav>

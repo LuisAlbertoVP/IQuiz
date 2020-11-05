@@ -1,0 +1,63 @@
+<div *ngIf="!service.getAuthorizationToken()" class="login-screen">
+  <ng-container *ngIf="hasLogin; else elseBlock">
+    <h4 class="text-center mb-5 blue">Sistema de cuestionarios y pruebas online</h4>
+    <h4 class="mb-4 blue">Iniciar sesión</h4>
+    <form [formGroup]="formLogin" (ngSubmit)="login()"> 
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Cedula</mat-label>
+        <input formControlName="cedula" matInput placeholder="Ingrese cedula" type="text">
+        <mat-icon matSuffix [inline]="true">person</mat-icon>
+        <mat-error *ngIf="formLogin.get('cedula').hasError('required')">Cedula es requerida</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Contraseña</mat-label>
+        <input formControlName="clave" matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese contraseña">
+        <button mat-icon-button matSuffix (click)="hide = !hide; $event.preventDefault()" >
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formLogin.get('clave').hasError('required')">Contraseña es requerida</mat-error>
+      </mat-form-field>
+      <div class="d-flex mt-1">
+        <button mat-raised-button color="primary" (click)="hasLogin=false; alert=false; $event.preventDefault()">Crear cuenta</button>
+        <button mat-raised-button color="primary" class="ml-auto">Iniciar sesión</button>
+      </div>
+    </form>
+    <div class="alert alert-danger mt-5" [style.display]="alert ? 'block' : 'none'">{{ message }}</div>
+  </ng-container>
+  <ng-template #elseBlock>
+    <h4 class="text-center mb-4 blue">Crear cuenta</h4>
+    <form [formGroup]="formCuenta" (ngSubmit)="crear()" autocomplete="off"> 
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Cedula</mat-label>
+        <input formControlName="cedula" matInput placeholder="Ingrese cedula" type="text" />
+        <mat-error *ngIf="formCuenta.get('cedula').hasError('required')">Cedula es requerida</mat-error>
+        <mat-error *ngIf="formCuenta.get('cedula').hasError('pattern')">Cedula debe tener 10 dígitos</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Correo</mat-label>
+        <input formControlName="correoPersonal" matInput placeholder="Ingrese correo" type="text" />
+        <mat-error *ngIf="formCuenta.get('correoPersonal').hasError('required')">Correo es requerido</mat-error>
+        <mat-error *ngIf="formCuenta.get('correoPersonal').hasError('pattern')">Ingrese una dirección de correo válida</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Nombres</mat-label>
+        <input formControlName="nombres" matInput placeholder="Ingrese nombres" type="text" />
+        <mat-error *ngIf="formCuenta.get('nombres').hasError('required')">Nombres son requeridos</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Contraseña</mat-label>
+        <input formControlName="clave" matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese contraseña" />
+        <button mat-icon-button matSuffix (click)="hide = !hide; $event.preventDefault()" >
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="formCuenta.get('clave').hasError('required')">Contraseña es requerida</mat-error>
+        <mat-error *ngIf="formCuenta.get('clave').hasError('pattern')">Ingrese una combinación de al menos 8 letras, números y caracteres especiales (!@#$%^&*)</mat-error>
+      </mat-form-field>
+      <div class="d-flex mt-1">
+        <button mat-raised-button color="primary" (click)="hasLogin=true; alert=false; $event.preventDefault()">Volver</button>
+        <button mat-raised-button color="primary" class="ml-auto">Guardar</button>
+      </div>
+    </form>
+    <div class="alert alert-danger mt-5" [style.display]="alert ? 'block' : 'none'">La cuenta ya existe</div>
+  </ng-template>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+  <form [formGroup]="cuenta" (ngSubmit)="changePassword()" style="padding: 20%;" autocomplete="off">
+    <div class="shadow3 p-3">
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Anterior contraseña</mat-label>
+        <input formControlName="clave" matInput [type]="hideAnterior ? 'password' : 'text'" />
+          <button mat-icon-button matSuffix (click)="hideAnterior = !hideAnterior; $event.preventDefault()" >
+            <mat-icon>{{hideAnterior ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="cuenta.get('clave').hasError('required')">Contraseña es requerida</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-100 mb-4">
+        <mat-label>Nueva contraseña</mat-label>
+        <input formControlName="nuevaClave" matInput [type]="hideNueva ? 'password' : 'text'" />
+          <button mat-icon-button matSuffix (click)="hideNueva = !hideNueva; $event.preventDefault()" >
+            <mat-icon>{{hideNueva ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="cuenta.get('nuevaClave').hasError('required')">Contraseña es requerida</mat-error>
+          <mat-error *ngIf="cuenta.get('nuevaClave').hasError('pattern')">Ingrese una combinación de al menos 8 letras, números y caracteres especiales (!@#$%^&*)</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="ml-auto">Guardar</button>
+    </div>
+  </form>
+</div>

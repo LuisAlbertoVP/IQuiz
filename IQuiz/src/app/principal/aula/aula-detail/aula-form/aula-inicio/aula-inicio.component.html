@@ -1,0 +1,53 @@
+<div class="container bg-light pb-5">
+  <div class="row d-flex mt-3 mb-3 p-3 txt-aula">
+    <h4 class="p-3 accent">{{ curso.materia }}</h4>
+    <h3 class="p-3 accent ml-auto">{{ curso.nombre.toUpperCase() }}</h3>
+  </div>
+  <form [formGroup]="post" (ngSubmit)="onSubmit()" class="row p-3 mb-5">
+    <div class="container d-flex shadow3 w-75 p-1 m0-auto bg-white">
+      <mat-form-field class="flex-grow-1 ml-2 mr-2">
+        <mat-label>Publicacion</mat-label>
+        <textarea formControlName="descripcion" matInput></textarea>
+        <mat-error *ngIf="post.get('descripcion').hasError('required')">Escriba algo antes de publicar</mat-error>
+      </mat-form-field>
+      <button mat-icon-button color="primary">
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </form>
+  <div class="row mt-5 mb-3 line"><h5 class="opensans">Publicaciones</h5></div>
+  <div *ngFor="let post of posts" class="row pr-4 pl-4 mt-3 mb-3">
+    <mat-card class="w-100 my-card">
+      <mat-card-header>
+        <mat-card-title class="blue">{{ post.autor }}</mat-card-title>
+        <mat-card-subtitle>{{ post.fecha }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ post.descripcion }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="visibleComentario(post)">Comentarios</button>
+      </mat-card-actions>
+    </mat-card>
+    <div [style.display]="post.showComentarios ? 'block' : 'none'" class="w-100 p-3 bg-comment">
+      <app-aula-comentarios [id]="post.id" [comentarios]="post.comentarios"></app-aula-comentarios>
+    </div>
+  </div>
+  <div class="row mt-5 mb-3 line"><h5 class="opensans">Asignaciones</h5></div>
+  <div *ngFor="let asignacion of asignaciones" class="row pr-4 pl-4 mt-2 mb-2">
+    <mat-card class="w-100 my-card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image"></div>
+        <mat-card-title class="blue">{{ asignacion.tema }}</mat-card-title>
+        <mat-card-subtitle>{{ 'Disponible: ' + asignacion.fecha + ' ' + parseTime(asignacion.tiempo) }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ asignacion.instrucciones }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngFor="let cuestionario of asignacion.cuestionarios" mat-stroked-button color="primary"
+          (click)="requestClave(cuestionario.asignacion_id, cuestionario)">{{ cuestionario.nombre }}</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div [formGroup]="form" class="row p-2">
+  <div formArrayName="filas" class="col-12 overflowx text-center">
+    <ng-container *ngFor="let fila of filas.controls; let i=index">
+      <div [formGroupName]="i">
+        <div formArrayName="columnas" class="d-inline">
+          <ng-container *ngFor="let columna of fila.get('columnas').controls; let j=index">
+            <div [formGroupName]="j" class="d-inline">
+              <ng-container *ngIf="tipo == 4">
+                <ng-container *ngIf="tabla.filas[i].columnas[j].palabra; else elseBlock">
+                  <input formControlName="palabra" type="text" class="w50" />
+                </ng-container>
+                <ng-template #elseBlock>
+                  <input formControlName="palabra" type="text" class="w50 invisible" />
+                </ng-template>
+              </ng-container>
+              <ng-container *ngIf="tipo == 5">
+                <input formControlName="palabra" type="hidden" />
+                <button [appPruebaTabla]="columna.get('palabra')" class="w50 border border-dark" style="background-color: white;">
+                  {{ letras[i][j] }}
+                </button>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

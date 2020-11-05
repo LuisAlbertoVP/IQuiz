@@ -43,6 +43,16 @@ namespace IdentityService.Models.DAO
             }
         }
 
+        public bool UpdatePassword(User user) {
+            try {
+                var command = new MySqlCommand("call update_password(@json)", _cnn);
+                command.Parameters.AddWithValue("@json", user.ToJSON());
+                return command.ExecuteNonQuery() > 0;
+            } catch (Exception) {
+                return false;
+            }
+        }
+
         public bool AddUser(User user) {
             try {
                 var command = new MySqlCommand("call add_usuario(@json)", _cnn);
